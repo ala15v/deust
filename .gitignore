@@ -39,6 +39,6 @@ luac.out
 *.x86_64
 *.hex
 
-build/deust.lua
+build/**
 Moose/**
 Moose.lua
