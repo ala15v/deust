@@ -63,7 +63,7 @@ while( deustSource ) do
         local deustSourceFile = io.open( deustFilePath, "r" )
         local deustSourceFileText = deustSourceFile:read( "*a" )
         deustSourceFile:close()
-        LoaderFile:write( deustSourceFileText )
+        LoaderFile:write( deustSourceFileText .. '\n' )
       end
     end
     deustSource = deustSourcesFile:read("*l")
