@@ -19,6 +19,31 @@
 -- REVIEW: This could be a class with events in the future
 
 function StaticRepair(stPrefix, cratePrefix, crates, range, coalition)
+
+    -- ANCHOR: Local variables
+    local stPrefix = stPrefix
+    local cratePrefix = cratePrefix
+    local crates = crates     --REVIEW
+    local range = range       --REVIEW
+    local coalition = coalition       --REVIEW
+
+    -- ANCHOR: Default parameters
+    if not stPrefix then
+        stPrefix = "repairable"
+    end
+    if not cratePrefix then
+        cratePrefix = "repairkit"
+    end
+    if not crates then
+        crates = 1
+    end
+    if not range then
+        range = 500
+    end
+    if not coalition then
+        coalition = "blue"
+    end
+
     -- ANCHOR: Input validation
     local invalidInput = false
 
