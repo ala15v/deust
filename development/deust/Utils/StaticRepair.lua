@@ -12,46 +12,74 @@
 - @see          https://flightcontrol-master.github.io/MOOSE_DOCS/Documentation/Core.Zone.html
 - @see          https://flightcontrol-master.github.io/MOOSE_DOCS/Documentation/Core.Set.html
 - @see          https://flightcontrol-master.github.io/MOOSE_DOCS/Documentation/Core.SpawnStatic.html
-]]--
+]]
+--
 
 -- TODO: Add more logs
+-- REVIEW: This could be a class with events in the future
 
 function StaticRepair(stPrefix, cratePrefix, crates, range, coalition)
-    -- Statics database
-    local DBObject = SET_STATIC:New()
-    DBObject:FilterCoalitions(coalition)
-    DBObject:FilterPrefixes(stPrefix)
-    DBObject:FilterOnce()
+    -- ANCHOR: Input validation
+    local invalidInput = false
 
-    -- Loop to find destroyed statics
-    for _, static in pairs(DBObject:GetSet()) do
-        if not static:IsAlive() then
-            -- Creating scan zone
-            local scanZone = ZONE_RADIUS:New("scanzone" .. static:GetName(), static:GetVec2(), range)
+    if type(stPrefix) ~= "string" then
+        invalidInput = true
+    end
+    if type(cratePrefix) ~= "string" then
+        invalidInput = true
+    end
+    if type(crates) ~= "number" then
+        invalidInput = true
+    end
+    if type(range) ~= "number" then
+        invalidInput = true
+    end
+    if type(coalition) ~= "string" then
+        invalidInput = true
+    end
 
-            -- Crates in zone database
-            local DBCrate = SET_STATIC:New()
-            DBCrate:FilterCoalitions(coalition)
-            DBCrate:FilterZones({ scanZone })
-            DBCrate:FilterPrefixes(cratePrefix)
-            DBCrate:FilterOnce()
+    -- ANCHOR: Start Point
+    if not invalidInput then
+        -- ANCHOR: Statics database
+        local DBObject = SET_STATIC:New()
+        DBObject:FilterCoalitions(coalition)
+        DBObject:FilterPrefixes(stPrefix)
+        DBObject:FilterOnce()
 
-            -- Checking minimun amount required
-            if DBCrate:Count() >= crates then
-                local removedCrates = 0
-                -- Loop to remove used crates
-                for _, crate in pairs(DBCrate:GetSet()) do
-                    if removedCrates < crates then -- This condition prevents deleating more crates than necessary
-                        crate:Destroy() -- Remove the crates used to repair
-                        removedCrates = removedCrates + 1
+        -- Loop to find destroyed statics
+        for _, static in pairs(DBObject:GetSet()) do
+            if not static:IsAlive() then
+                -- Creating scan zone
+                local scanZone = ZONE_RADIUS:New("scanzone" .. static:GetName(), static:GetVec2(), range)
+
+                -- ANCHOR: Crates in zone database
+                local DBCrate = SET_STATIC:New()
+                DBCrate:FilterCoalitions(coalition)
+                DBCrate:FilterZones({ scanZone })
+                DBCrate:FilterPrefixes(cratePrefix)
+                DBCrate:FilterOnce()
+
+                -- Checking minimun amount required
+                if DBCrate:Count() >= crates then
+                    local removedCrates = 0
+                    -- Loop to remove used crates
+                    for _, crate in pairs(DBCrate:GetSet()) do
+                        if removedCrates < crates then -- This condition prevents deleating more crates than necessary
+                            crate:Destroy() -- Remove the crates used to repair
+                            removedCrates = removedCrates + 1
+                        end
                     end
-                end
 
-                static:Destroy() -- First remove the destroyed structure
-                static:ReSpawn() -- Then respawn the structure
-                env.info("Deust StaticRepair: Repaired the structure with name, " ..
-                    static:GetName())   -- TODO: Use deustlog
+                    static:Destroy() -- First remove the destroyed structure
+                    static:ReSpawn() -- Then respawn the structure
+                    env.info("Deust StaticRepair: Repaired the structure with name, " ..
+                    static:GetName()) -- TODO: Use deustlog
+                end
             end
         end
+    else
+        env.error("Deust StaticRepair: Invalid Input")
     end
 end
+
+deust.utils.StaticRepair = true -- In case it is needed to check if this module is loaded
