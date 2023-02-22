@@ -7,7 +7,7 @@ if deust.SRS then
     deust.SRS = true
 end
 
-local function deustTextToSpeech(Message)
+function deustTextToSpeech(Message)
     if not deust.SRS then
         return
     end
@@ -23,7 +23,7 @@ local function deustTextToSpeech(Message)
         deust.SRS_Language)
 end
 
-local function deustTextToSpeechType(MessageType)
+function deustTextToSpeechType(MessageType)
     local MessageClass = deust.SRS_TextCollection[MessageType]
     if not MessageClass then
         _deustlog_info('ERROR en deustTextToSpeech con MessageType: ' .. MessageType)
@@ -34,7 +34,7 @@ local function deustTextToSpeechType(MessageType)
 
 end
 
-local function deustTextToSpeechCustom(Message)
+function deustTextToSpeechCustom(Message)
     deustTextToSpeech(Message)
 end
 
