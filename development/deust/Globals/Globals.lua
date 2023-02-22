@@ -43,5 +43,6 @@ deust.fatcow.SpawnTent = ( STATIC:FindByName("templateFOBTent", false) and SPAWN
 deust.fatcow.SpawnSoldier = ( STATIC:FindByName("templateFOBSoldier", false) and SPAWNSTATIC:NewFromStatic("templateFOBSoldier", country.id.USA) or nil )
 
 -- SECTION: Utils
+deust.utils = {}
 deust.utils.StaticRepair = false
 -- !SECTION
