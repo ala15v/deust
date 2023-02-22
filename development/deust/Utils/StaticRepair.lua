@@ -23,9 +23,9 @@ function StaticRepair(stPrefix, cratePrefix, crates, range, coalition)
     -- ANCHOR: Local variables
     local stPrefix = stPrefix
     local cratePrefix = cratePrefix
-    local crates = crates     --REVIEW
-    local range = range       --REVIEW
-    local coalition = coalition       --REVIEW
+    local crates = tonumber(crates)
+    local range = tonumber(range)
+    local coalition = coalition
 
     -- ANCHOR: Default parameters
     if not stPrefix then
@@ -65,6 +65,9 @@ function StaticRepair(stPrefix, cratePrefix, crates, range, coalition)
 
     -- ANCHOR: Start Point
     if not invalidInput then
+
+        coalition = string.lower(coalition)     -- converting value to lower case
+
         -- ANCHOR: Statics database
         local DBObject = SET_STATIC:New()
         DBObject:FilterCoalitions(coalition)
