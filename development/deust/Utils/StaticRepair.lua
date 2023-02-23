@@ -1,17 +1,33 @@
 --[[
-- @brief        This function will search, in the start of the mission, any destroyed static with the given prefix and it will repair it if there are enought crates with the given prefix close to the static
--
-- @example      StaticRepair("factory", "repairCrate", 5, 500, "blue")
--
-- @param        stPrefix        <String>        This is the prefix of the structures that should be repaired
-- @param        cratePrefix     <String>        This is the prefix of the repair crates that will be used to repair the statics
-- @param        crates          <Integer>       This is the number of crates needed to repair one structure
-- @param        range           <Integer>       This is the radius of the area in meter where the where repair crates will be searched
-- @param        coalition       <String>        This is the coalition name of the structures and crates
--
-- @see          https://flightcontrol-master.github.io/MOOSE_DOCS/Documentation/Core.Zone.html
-- @see          https://flightcontrol-master.github.io/MOOSE_DOCS/Documentation/Core.Set.html
-- @see          https://flightcontrol-master.github.io/MOOSE_DOCS/Documentation/Core.SpawnStatic.html
+
+---
+
+## StaticRepair(stPrefix, cratePrefix, crates, range, coalition)
+
+### Briefing
+
+This function will search any destroyed static with the given prefix and repair those if there are enought crates with the given prefix close to the static
+
+> ### **Parameters**
+>
+> |     Name            |       Type        |         Default         |         Options         |                                     Description                                         |
+> |:-------------------:|:-----------------:|:-----------------------:|:-----------------------:|:----------------------------------------------------------------------------------------|
+> |     stPrefix        |       String      |     `"repairable"`      |                         | This is the prefix of the structures that should be repaired                            |
+> |     cratePrefix     |       String      |     `"repairkit"`       |                         | This is the prefix of the repair crates that will be used to repair the statics         |
+> |     crates          |       Integer     |           `1`           |                         | This is the number of crates needed to repair one structure                             |
+> |     range           |       Integer     |          `500`          |                         | This is the radius of the area in meter where the where repair crates will be searched  |
+> |     coalition       |       String      |        `"blue"`         | *`"blue"`* \| *`"red"`* | This is the coalition name of the structures and crates                                 |
+
+> ### **Example** ~Default parameters~
+>
+>> Input: `StaticRepair()`
+
+> ### **Example**
+>
+>> Input: `StaticRepair("factory", "repairCrate", 5, 500, "blue")`
+
+---
+
 ]]
 --
 
@@ -19,7 +35,6 @@
 -- REVIEW: This could be a class with events in the future
 
 function StaticRepair(stPrefix, cratePrefix, crates, range, coalition)
-
     -- ANCHOR: Local variables
     local stPrefix = stPrefix
     local cratePrefix = cratePrefix
@@ -65,8 +80,7 @@ function StaticRepair(stPrefix, cratePrefix, crates, range, coalition)
 
     -- ANCHOR: Start Point
     if not invalidInput then
-
-        coalition = string.lower(coalition)     -- converting value to lower case
+        coalition = string.lower(coalition) -- converting value to lower case
 
         -- ANCHOR: Statics database
         local DBObject = SET_STATIC:New()
