@@ -55,7 +55,7 @@ function Economy:New(alias, coalition)
     end
 end
 
-function OnLeaveNotReadyYet(From, Event, To)
+function Economy:OnLeaveNotReadyYet(From, Event, To)
 
     -- Checking all components are loaded
     local Main = deust.Economy.Main
