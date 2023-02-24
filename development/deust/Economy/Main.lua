@@ -12,6 +12,7 @@ Economy = {
 }
 
 -- ANCHOR: Constructor
+-- TODO: Add logs
 function Economy:New(alias, coalition)
     -- Input validation
     local invalidInput = false
@@ -53,3 +54,15 @@ function Economy:New(alias, coalition)
         env.error("Deust Economy.New(): Invalid Input")
     end
 end
+
+function OnLeaveNotReadyYet(From, Event, To)
+
+    -- Checking all components are loaded
+    local Main = deust.Economy.Main
+    -- Not many modules for now.... They are coming ;)
+    
+    -- TODO: Add logs
+    return (Main)       -- If FALSE it will stop the transition
+end
+
+deust.Economy.Main = true
