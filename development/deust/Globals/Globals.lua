@@ -45,4 +45,5 @@ deust.fatcow.SpawnSoldier = ( STATIC:FindByName("templateFOBSoldier", false) and
 -- SECTION: Utils
 deust.utils = {}
 deust.utils.StaticRepair = false
+deust.utils.CreateNameMGRS = false
 -- !SECTION
