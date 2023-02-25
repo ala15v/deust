@@ -1,6 +1,8 @@
 ------------------
 -- START FATCOW --
 ------------------
+_deustlog_info('[MODULE] Fat Cow loading')
+
 local lz = MARKEROPS_BASE:New("lz",{"lz"})
 local rtb = MARKEROPS_BASE:New("rtb",{"rtb"})
 local orbit = MARKEROPS_BASE:New( "orbit" )
@@ -291,7 +293,4 @@ deust.getHumanReadTime = function(seconds)
     return remaining_time
   end
 
---############--
--- END FATCOW --
---############--
-
+  _deustlog_info('[MODULE] Fat Cow loaded')
