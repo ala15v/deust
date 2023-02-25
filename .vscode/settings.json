@@ -1,0 +1,17 @@
+{
+    "Lua.workspace.preloadFileSize": 50000,
+    "Lua.diagnostics.disable": [
+        "undefined-doc-name"
+    ],
+    "Lua.diagnostics.globals": [
+        "BASE",
+        "lfs",
+        "__deust",
+        "env",
+        "deust"
+    ],
+    "Lua.completion.displayContext": 5,
+    "Lua.runtime.version": "Lua 5.1",
+    "Lua.completion.callSnippet": "Both",
+    "terminal.integrated.cwd": ""
+}
