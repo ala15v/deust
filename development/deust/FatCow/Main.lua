@@ -181,6 +181,7 @@ function lz:OnAfterMarkChanged(From,Event,To,Text,Keywords,Coord)
         return
     end
     deust.fatcow.group = SPAWN:New( deust.fatcow.groupName ):InitKeepUnitNames():InitAIOff():Spawn()
+    deust.fatcow.FatCowEscort()
     deust.fatcow.group:OptionROTPassiveDefense()
     deust.fatcow.rtb = deust.fatcow.group:GetVec2()
     deust.fatcow.rtbcoord = deust.fatcow.group:GetCoordinate()
