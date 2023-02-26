@@ -7,7 +7,8 @@
         "BASE",
         "lfs",
         "__deust",
-        "env"
+        "env",
+        "deust"
     ],
     "Lua.completion.displayContext": 5,
     "Lua.runtime.version": "Lua 5.1",
