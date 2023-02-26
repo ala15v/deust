@@ -88,8 +88,7 @@ function rtb:OnAfterMarkChanged(From,Event,To,Text,Keywords,Coord)
     deust.fatcow.rtbSchedulerCheck = deust.fatcow.rtbScheduler:Schedule(nil,
     function()
         _deustlog_debug('Checking RTB')
-        local altitude = deust.fatcow.group:GetAltitude(true)
-        if (altitude < 3)
+        if (deust.fatcow.group:AllOnGround())
             then
                 _deustlog_info('RTB landing detected')
                 MESSAGE:New(string.format('Fat Cow has reached RTB.'), 30, 'Fat Cow'):ToCoalition( coalition.side.BLUE )
@@ -154,12 +153,9 @@ function lz:OnAfterMarkChanged(From,Event,To,Text,Keywords,Coord)
                 SCHEDULER:Stop(deust.fatcow.landSchedulerCheck)
                 return
             end
-
-            -- 3 is a good value on altitude AGL
-            local altitude = deust.fatcow.group:GetAltitude(true)
-
-            if (altitude < 3)
+            if (deust.fatcow.group:AllOnGround())
             then
+                deust.fatcow.FatCowEscortOrbitOnLZ(Coord)
                 MESSAGE:New('Fat Cow has just reached LZ point.', 30, 'Fat Cow'):ToCoalition( coalition.side.BLUE )
                 deust.buildFobFatcow(deust.fatcow.SpawnFOB,
                 deust.fatcow.SpawnFuel,
@@ -216,10 +212,7 @@ function lz:OnAfterMarkChanged(From,Event,To,Text,Keywords,Coord)
                 return
             end
 
-            -- 3 is a good value on altitude AGL
-            local altitude = deust.fatcow.group:GetAltitude(true)
-
-            if (altitude < 3)
+            if (deust.fatcow.group:AllOnGround())
             then
                 deust.fatcow.FatCowEscortOrbitOnLZ(Coord)
                 MESSAGE:New('Fat Cow has just reached LZ point.', 30, 'Fat Cow'):ToCoalition( coalition.side.BLUE )
