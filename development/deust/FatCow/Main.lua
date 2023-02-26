@@ -73,6 +73,7 @@ function rtb:OnAfterMarkChanged(From,Event,To,Text,Keywords,Coord)
     MESSAGE:New('Fat Cow on RTB.', 30, 'Fat Cow'):ToCoalition( coalition.side.BLUE )
     deust.destroyStatics(deust.fatcow.farp_statics)
     local rtbtask = deust.fatcow.group:TaskLandAtVec2(deust.fatcow.rtb, 32000)
+    deust.fatcow.FatCowEscort()
     deust.fatcow.echoETA(deust.fatcow.rtbcoord, 'RTB')
     deust.fatcow.group:SetTask( rtbtask, 1 )
     deust.fatcow.landScheduler:Stop()
@@ -93,6 +94,7 @@ function rtb:OnAfterMarkChanged(From,Event,To,Text,Keywords,Coord)
                 _deustlog_info('RTB landing detected')
                 MESSAGE:New(string.format('Fat Cow has reached RTB.'), 30, 'Fat Cow'):ToCoalition( coalition.side.BLUE )
                 deust.fatcow.group:Destroy(false)
+                deust.fatcow.DestroyFatCowEscort()
                 deust.fatcow.dead = false
                 deust.fatcow.group = nil
                 deust.fatcow.onrtb = false
@@ -219,6 +221,7 @@ function lz:OnAfterMarkChanged(From,Event,To,Text,Keywords,Coord)
 
             if (altitude < 3)
             then
+                deust.fatcow.FatCowEscortOrbitOnLZ(Coord)
                 MESSAGE:New('Fat Cow has just reached LZ point.', 30, 'Fat Cow'):ToCoalition( coalition.side.BLUE )
                 deustTextToSpeechType('lz_reached')
                 deust.buildFobFatcow(deust.fatcow.SpawnFOB,

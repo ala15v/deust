@@ -33,7 +33,8 @@ deust.RandomRoute.Prefix = 'deust Supression RRoute'
 -- Fat Cow detection
 deust.fatcow = {}
 deust.fatcow.groupName = 'FatcowGroup1-1'
-deust.fatcow.escortGroupName = 'FatcowEscortGroup'
+deust.fatcow.EscortGroupName = 'FatcowEscortGroup'
+deust.fatcow.EscortGroup = nil
 deust.fatcow.farp_statics = {}
 deust.fatcow.dead = false
 -- TODO: temporal antes que se creen las unidades desde cero. Así evitamos que rompa
