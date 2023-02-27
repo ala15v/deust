@@ -4,7 +4,9 @@ Economy = {
     Alias = nil,
     Coalition = nil,
     Funds = 0,
+    PreAuthorized = 0,
     TransactionsQueue = {},
+    TransactionsDelay = 30,
     Industry = {},
     DefenseBudget = 0, -- percent   -- REVIEW: Is this really needed??
     SavePath = lfs.writedir() .. "Economy\\",
@@ -68,10 +70,11 @@ function Economy:onleaveNotReadyYet(From, Event, To)
     -- Checking all components are loaded
     local Main = deust.Economy.Main
     local Methods = deust.Economy.Methods
+    local Transactions = deust.Economy.Transactions
     -- Not many modules for now.... They are coming ;)
     
     -- TODO: Add logs
-    return (Main and Methods)       -- If FALSE it will stop the transition
+    return (Main and Methods and Transactions)       -- If FALSE it will stop the transition
 end
 
 deust.Economy.Main = true
