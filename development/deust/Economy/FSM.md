@@ -22,6 +22,9 @@ Pause: Pause()
 Stop: Stop()
 Unpause: Unpause()
 Save: Save()
+AddTransaction: AddTransaction()
+CheckTransactions: CheckTransactions()
+ProcessTransactions: ProcessTransactions()
 
 %% Transitions %%
 [*] --> NotReadyYet:::States
@@ -44,6 +47,24 @@ Running --> Stop
 Paused --> Stop
 Stop --> Stopped:::States
 Stopped --> Save
+Loaded --> AddTransaction:::Events
+Running --> AddTransaction
+Paused --> AddTransaction
+Stopped --> AddTransaction
+AddTransaction --> Loaded
+AddTransaction --> Running
+AddTransaction --> Paused
+AddTransaction --> Stopped
+Loaded --> CheckTransactions:::Events
+Running --> CheckTransactions
+Paused --> CheckTransactions
+Stopped --> CheckTransactions
+CheckTransactions --> Loaded
+CheckTransactions --> Running
+CheckTransactions --> Paused
+CheckTransactions --> Stopped
+Running --> ProcessTransactions:::Events
+ProcessTransactions --> Running
 Stopped --> [*]
 
 ```

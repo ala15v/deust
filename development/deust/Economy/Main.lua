@@ -4,6 +4,7 @@ Economy = {
     Alias = nil,
     Coalition = nil,
     Funds = 0,
+    TransactionsQueue = {},
     Industry = {},
     DefenseBudget = 0, -- percent
     SavePath = lfs.writedir() .. "Economy\\",
@@ -49,6 +50,10 @@ function Economy:New(alias, coalition)
         self:AddTransition("Paused", "Unpause", "Running") -- Unpause the Economy. Queued requests are processed again.
 
         self:AddTransition({ "Paused", "Stopped" }, "Save", "*") -- Save the Economy state to disk.
+
+        self:AddTransition("*", "AddTransaction", "*") -- Add transaction to the queue.
+        self:AddTransition("*", "CheckTransactions", "*") -- Check transactions in the queue.
+        self:AddTransition("Running", "ProcessTransactions", "*") -- Process the next transaction in the queue.
         -- !SECTION
     else
         env.error("Deust Economy.New(): Invalid Input")
