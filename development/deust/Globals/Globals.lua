@@ -50,4 +50,5 @@ deust.utils.StaticRepair = false
 -- SECTION: Economy
 deust.Economy = {}
 deust.Economy.Main = false
+deust.Economy.Methods = false
 -- !SECTION

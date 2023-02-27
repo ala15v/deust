@@ -6,7 +6,7 @@ Economy = {
     Funds = 0,
     TransactionsQueue = {},
     Industry = {},
-    DefenseBudget = 0, -- percent
+    DefenseBudget = 0, -- percent   -- REVIEW: Is this really needed??
     SavePath = lfs.writedir() .. "Economy\\",
     SaveFile = nil,
     Running = false
@@ -63,14 +63,15 @@ function Economy:New(alias, coalition)
     end
 end
 
-function Economy:OnLeaveNotReadyYet(From, Event, To)
+function Economy:onleaveNotReadyYet(From, Event, To)
 
     -- Checking all components are loaded
     local Main = deust.Economy.Main
+    local Methods = deust.Economy.Methods
     -- Not many modules for now.... They are coming ;)
     
     -- TODO: Add logs
-    return (Main)       -- If FALSE it will stop the transition
+    return (Main and Methods)       -- If FALSE it will stop the transition
 end
 
 deust.Economy.Main = true
