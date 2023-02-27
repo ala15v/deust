@@ -55,8 +55,11 @@ function Economy:New(alias, coalition)
         self:AddTransition("*", "CheckTransactions", "*") -- Check transactions in the queue.
         self:AddTransition("Running", "ProcessTransactions", "*") -- Process the next transaction in the queue.
         -- !SECTION
+
+        return self
     else
         env.error("Deust Economy.New(): Invalid Input")
+        return false
     end
 end
 
