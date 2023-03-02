@@ -65,20 +65,35 @@ function Economy:New(alias, coalition)
 end
 
 function Economy:onleaveNotReadyYet(From, Event, To)
-
     -- Checking all components are loaded
     local Main = deust.Economy.Main
     local Methods = deust.Economy.Methods
     local Transactions = deust.Economy.Transactions
     -- Not many modules for now.... They are coming ;)
-    
+
     -- TODO: Add logs
-    return (Main and Methods and Transactions)       -- If FALSE it will stop the transition
+    return (Main and Methods and Transactions) -- If FALSE it will stop the transition
 end
 
 function Economy:onafterStart(From, Event, To)
-
     self:__CheckTransactions(self.TransactionsDelay)
+end
+
+function Economy:onbeforeCheckTransactions(From, Event, To)
+    -- TODO: filter invalid transactions in the queue
+    --local TransactionFSMstate=self.TransactionsQueue[1]:GetState()
+end
+
+function Economy:onafterCheckTransactions(From, Event, To)
+    local nTransactions = #self.TransactionsQueue -- REVIEW: This method might fail
+
+    if nTransactions > 0 then
+        if self.TransactionsQueue[1].From and self.TransactionsQueue[1].To then
+            self:__ProcessTransaction(1)
+        else
+            self:__ProcessSelfTransaction(1)
+        end
+    end
 end
 
 deust.Economy.Main = true
