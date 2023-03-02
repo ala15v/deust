@@ -76,4 +76,9 @@ function Economy:onleaveNotReadyYet(From, Event, To)
     return (Main and Methods and Transactions)       -- If FALSE it will stop the transition
 end
 
+function Economy:onafterStart(From, Event, To)
+
+    self:__CheckTransactions(self.TransactionsDelay)
+end
+
 deust.Economy.Main = true
