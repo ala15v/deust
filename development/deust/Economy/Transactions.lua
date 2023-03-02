@@ -62,14 +62,22 @@ end
 -- !SECTION
 
 function Economy:onbeforeAddTransaction(From, Event, To, Transaction)
-    local Transaction = Transaction
+    local ammount = Transaction.Ammount
+    local funds = self:GetFunds()
+    local preAuthorized = self:GetPreAuthorized()
+    local minFunds = preAuthorized + ammount
 
 
     -- Check the PreAuthorized value is not bigger than the funds available
-    if self.Funds >= self.PreAuthorized + Ammount then
+    if funds >= minFunds then
         return true
     end
     return false
+end
+
+function Economy:onafterAddTransaction(From, Event, To, Transaction)
+    Transaction:PreAuthorize()
+    table.insert(self.TransactionsQueue, Transaction)
 end
 
 deust.Economy.Transactions = true
