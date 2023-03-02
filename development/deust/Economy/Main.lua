@@ -55,7 +55,8 @@ function Economy:New(alias, coalition)
 
         self:AddTransition("*", "AddTransaction", "*") -- Add transaction to the queue.
         self:AddTransition("*", "CheckTransactions", "*") -- Check transactions in the queue.
-        self:AddTransition("Running", "ProcessTransactions", "*") -- Process the next transaction in the queue.
+        self:AddTransition("Running", "ProcessSelfTransaction", "*") -- Process the next transaction in the queue.
+        self:AddTransition("Running", "ProcessTransaction", "*") -- Process the next transaction in the queue.
         -- !SECTION
 
         return self

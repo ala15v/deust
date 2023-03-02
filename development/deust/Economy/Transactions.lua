@@ -1,20 +1,22 @@
 -- SECTION: Class Transaction
+-- ANCHOR: Class declaration
 Transaction = {
+    ClassName = "Transaction",
     From = nil, -- #Economy
     To = nil, -- #Economy
     Ammount = 0,
-    Requester = nil, -- #ClassID?
     Comment = nil,
-    Callback = nil -- #Function
 }
 
-function Transaction:New(From, To, Ammount, Requester, Comment, Callback)
+-- ANCHOR: Constructor
+function Transaction:New(From, To, Ammount, Requester, Comment)
     local From = From
     local To = To
     local Ammount = tonumber(Ammount)
-    local Requester = Requester
     local Comment = Comment
-    local Callback = Callback
+
+    -- Inherit everthing from FSM class.
+    local self = BASE:Inherit(self, FSM:New()) -- #Economy
 
     -- ANCHOR: Input validation
     if type(From) ~= "nil" then -- if nil it is selftransaction
@@ -30,14 +32,8 @@ function Transaction:New(From, To, Ammount, Requester, Comment, Callback)
     if not Ammount then
         return false
     end
-    -- TODO: Requester check
     if type(Comment) ~= "nil" then -- nil is valid
         if type(Comment) ~= "string" then
-            return false
-        end
-    end
-    if type(Callback) ~= "nil" then -- nil is valid
-        if type(Callback) ~= "function" then -- REVIEW: does this type exist?
             return false
         end
     end
@@ -46,47 +42,29 @@ function Transaction:New(From, To, Ammount, Requester, Comment, Callback)
     self.From = From
     self.To = To
     self.Ammount = Ammount
-    self.Requester = Requester
     self.Comment = Comment
-    self.Callback = Callback
+
+    -- SECTION: FSM Transitions
+    -- Start State.
+    self:SetStartState("None")
+
+    -- Add FSM transitions.
+    --                 From State   -->         Event        -->     To State
+    self:AddTransition("None", "PreAuthorize", "PreAuthorized") -- Load the Economy state from scatch.
+
+    self:AddTransition("PreAuthorized", "Approve", "Completed") -- Start the Economy from scratch.
+    self:AddTransition({ "None", "PreAuthorized" }, "Cancel", "Cancelled") -- Stop the Economy.
+    -- !SECTION
+
+    return self
 end
 
 -- !SECTION
 
-function Economy:onbeforeAddTransaction(From, Event, To, FromEconomy, ToEconomy, Ammount, Requester, Comment, Callback)
-    local FromEconomy = FromEconomy
-    local ToEconomy = ToEconomy
-    local Ammount = tonumber(Ammount)
-    local Requester = Requester
-    local Comment = Comment
-    local Callback = Callback
+function Economy:onbeforeAddTransaction(From, Event, To, Transaction)
+    local Transaction = Transaction
 
 
-    -- ANCHOR: Input validation
-    if type(FromEconomy) ~= "nil" then -- if nil it is selftransaction
-        if type(FromEconomy) ~= "table" then
-            return false
-        end
-    end
-    if type(ToEconomy) ~= "nil" then -- if nil it is selftransaction
-        if type(ToEconomy) ~= "table" then
-            return false
-        end
-    end
-    if not Ammount then
-        return false
-    end
-    -- TODO: Requester check
-    if type(Comment) ~= "nil" then -- nil is valid
-        if type(Comment) ~= "string" then
-            return false
-        end
-    end
-    if type(Callback) ~= "nil" then -- nil is valid
-        if type(Callback) ~= "function" then -- REVIEW: does this type exist?
-            return false
-        end
-    end
     -- Check the PreAuthorized value is not bigger than the funds available
     if self.Funds >= self.PreAuthorized + Ammount then
         return true
