@@ -24,6 +24,30 @@ function Economy:SetPreAuthorized(value)
     return false -- Shouldn't be necessary an else condition
 end
 
+function Economy:Increase(value)
+    local value = tonumber(value) -- Checking if the value is number
+    local currentFunds = self:GetFunds()
+
+    if currentFunds and value then -- Checking the previous values are okay
+        local newAmmount = currentFunds + value
+        return self:SetFunds(newAmmount) -- Returns true if the new ammount is set
+    end
+
+    return false
+end
+
+function Economy:Decrease(value)
+    local value = tonumber(value) -- Checking if the value is number
+    local currentFunds = self:GetFunds()
+
+    if currentFunds and value then -- Checking the previous values are okay
+        local newAmmount = currentFunds - value
+        return self:SetFunds(newAmmount) -- Returns true if the new ammount is set
+    end
+
+    return false
+end
+
 function Economy:GetPreAuthorized()
     return tonumber(self.PreAuthorized)
 end
