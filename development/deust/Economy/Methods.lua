@@ -67,4 +67,18 @@ function Economy:GetTransactionsDelay()
     return tonumber(self.TransactionsDelay)
 end
 
+-- Delete object from a table
+function Economy:DeleteQueueItem(qitem, queue)
+  self:F({qitem=qitem, queue=queue})
+
+  for i=1,#queue do
+    local _item=queue[i] --#Economy.Queueitem
+    if _item.uid==qitem.uid then
+      self:T(self.LogHeader..string.format("Deleting queue item id=%d.", qitem.uid))
+      table.remove(queue,i)
+      break
+    end
+  end
+end
+
 deust.Economy.Methods = true

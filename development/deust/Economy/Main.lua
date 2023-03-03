@@ -9,7 +9,7 @@ Economy = {
     TransactionsDelay = 30,
     SavePath = lfs.writedir() .. "Economy\\",
     SaveFile = nil,
-    Running = false
+    LogHeader = ""
 }
 
 -- ANCHOR: Constructor
@@ -30,6 +30,7 @@ function Economy:New(alias, coalition)
 
     if not invalidInput then
         self.Alias = alias
+        self.LogHeader = string.format("Economy %s | ", self.alias)
         self.Coalition = string.lower(coalition) -- converting value to lower case
 
 
@@ -39,29 +40,28 @@ function Economy:New(alias, coalition)
 
         -- Add FSM transitions.
         --                 From State   -->         Event        -->     To State
-        self:AddTransition("NotReadyYet", "Load", "Loaded") -- Load the Economy state from scatch.
-        self:AddTransition("Stopped", "Load", "Loaded") -- Load the Economy state stopped state.
+        self:AddTransition("NotReadyYet", "Load", "Loaded")          -- Load the Economy state from scatch.
+        self:AddTransition("Stopped", "Load", "Loaded")              -- Load the Economy state stopped state.
 
-        self:AddTransition("NotReadyYet", "Start", "Running") -- Start the Economy from scratch.
-        self:AddTransition("Loaded", "Start", "Running") -- Start the Economy when loaded from disk.
+        self:AddTransition("NotReadyYet", "Start", "Running")        -- Start the Economy from scratch.
+        self:AddTransition("Loaded", "Start", "Running")             -- Start the Economy when loaded from disk.
 
-        self:AddTransition("*", "Stop", "Stopped") -- Stop the Economy.
-        self:AddTransition("Running", "Pause", "Paused") -- Pause the processing of new requests.
-        self:AddTransition("Paused", "Unpause", "Running") -- Unpause the Economy. Queued requests are processed again.
+        self:AddTransition("*", "Stop", "Stopped")                   -- Stop the Economy.
+        self:AddTransition("Running", "Pause", "Paused")             -- Pause the processing of new requests.
+        self:AddTransition("Paused", "Unpause", "Running")           -- Unpause the Economy. Queued requests are processed again.
 
-        self:AddTransition({ "Paused", "Stopped" }, "Save", "*") -- Save the Economy state to disk.
+        self:AddTransition({ "Paused", "Stopped" }, "Save", "*")     -- Save the Economy state to disk.
 
-        self:AddTransition("*", "AddTransaction", "*") -- Add transaction to the queue.
-        self:AddTransition("*", "CheckTransactions", "*") -- Check transactions in the queue.
+        self:AddTransition("*", "AddTransaction", "*")               -- Add transaction to the queue.
+        self:AddTransition("*", "CheckTransactions", "*")            -- Check transactions in the queue.
         self:AddTransition("Running", "ProcessSelfTransaction", "*") -- Process the next transaction in the queue.
-        self:AddTransition("Running", "ProcessTransaction", "*") -- Process the next transaction in the queue.
+        self:AddTransition("Running", "ProcessTransaction", "*")     -- Process the next transaction in the queue.
         -- !SECTION
 
         return self
-    else
-        env.error("Deust Economy.New(): Invalid Input")
-        return false
     end
+    env.error("Deust Economy.New(): Invalid Input")
+    return false
 end
 
 function Economy:onleaveNotReadyYet(From, Event, To)
@@ -88,12 +88,15 @@ function Economy:onafterCheckTransactions(From, Event, To)
     local nTransactions = #self.TransactionsQueue -- REVIEW: This method might fail
 
     if nTransactions > 0 then
-        if self.TransactionsQueue[1].From and self.TransactionsQueue[1].To then
-            self:__ProcessTransaction(1)
+        local nextTransaction = self.TransactionsQueue[1]
+        if nextTransaction.From and nextTransaction.To then
+            self:__ProcessTransaction(1, nextTransaction)
         else
-            self:__ProcessSelfTransaction(1)
+            self:__ProcessSelfTransaction(1, nextTransaction)
         end
     end
+
+    self:__CheckTransactions(self.TransactionsDelay)
 end
 
 deust.Economy.Main = true

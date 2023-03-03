@@ -3,9 +3,10 @@
 Transaction = {
     ClassName = "Transaction",
     From = nil, -- #Economy
-    To = nil, -- #Economy
+    To = nil,   -- #Economy
     Ammount = 0,
     Comment = nil,
+    LogHeader = ""
 }
 
 -- ANCHOR: Constructor
@@ -43,6 +44,7 @@ function Transaction:New(From, To, Ammount, Requester, Comment)
     self.To = To
     self.Ammount = Ammount
     self.Comment = Comment
+    self.LogHeader = string.format("Transaction %s | ", self.uid)
 
     -- SECTION: FSM Transitions
     -- Start State.
@@ -50,10 +52,10 @@ function Transaction:New(From, To, Ammount, Requester, Comment)
 
     -- Add FSM transitions.
     --                 From State   -->         Event        -->     To State
-    self:AddTransition("None", "PreAuthorize", "PreAuthorized") -- Load the Economy state from scatch.
+    self:AddTransition("None", "PreAuthorize", "PreAuthorized")            -- Declare the Transaction as PreAuthorized.
 
-    self:AddTransition("PreAuthorized", "Approve", "Completed") -- Start the Economy from scratch.
-    self:AddTransition({ "None", "PreAuthorized" }, "Cancel", "Cancelled") -- Stop the Economy.
+    self:AddTransition("PreAuthorized", "Approve", "Completed")            -- Declare the Transaction as Completed.
+    self:AddTransition({ "None", "PreAuthorized" }, "Cancel", "Cancelled") -- Declare the Transaction as Cancelled.
     -- !SECTION
 
     return self
@@ -78,6 +80,22 @@ end
 function Economy:onafterAddTransaction(From, Event, To, Transaction)
     Transaction:PreAuthorize()
     table.insert(self.TransactionsQueue, Transaction)
+end
+
+function Economy:onbeforeProcessSelfTransaction(From, Event, To, Transaction)
+    if Transaction.From then
+        return self:Decrease(Transaction.Ammount)
+    end
+    if Transaction.To then
+        return self:Increase(Transaction.Ammount)
+    end
+
+    return false
+end
+
+function Economy:onafterProcessSelfTransaction(From, Event, To, Transaction)
+    Transaction:Approve()
+    Economy:DeleteQueueItem(Transaction, self.TransactionsQueue)
 end
 
 deust.Economy.Transactions = true
