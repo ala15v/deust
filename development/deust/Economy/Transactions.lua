@@ -39,6 +39,14 @@ function Transaction:New(From, To, Ammount, Comment)
             return false
         end
     end
+    if not (From or To) then -- must be a source or a destination
+        return false
+    end
+    if From and To then
+        if From.uid == To.uid then -- source and destination can not be the same object
+            return false
+        end
+    end
 
     -- ANCHOR: After validation
     self.uid = #deust.Economy.TransactionDB + 1
@@ -60,27 +68,34 @@ function Transaction:New(From, To, Ammount, Comment)
     self:AddTransition({ "None", "PreAuthorized" }, "Cancel", "Cancelled") -- Declare the Transaction as Cancelled.
     -- !SECTION
 
-    table.insert(deust.Economy.TransactionDB, self)     -- Inserting the new class into the main Transaction DataBase
+    table.insert(deust.Economy.TransactionDB, self) -- Inserting the new class into the main Transaction DataBase
     return self
 end
 
 -- !SECTION
 
 function Economy:onbeforeAddTransaction(From, Event, To, Transaction)
+    local source = Transaction.From
     local destination = Transaction.To
-    local ammount = Transaction.Ammount
-    local funds = self:GetFunds()
-    local preAuthorized = self:GetPreAuthorized()
-    local minFunds = preAuthorized + ammount
 
-    -- Always preauthorized if the Economy object is receiving the transition
-    if destination.uid == self.uid then
+    if destination and destination.uid == self.uid then
+        -- Always preauthorized if the Economy object is receiving the transition
         return true
     end
-    -- Check the PreAuthorized value is not bigger than the funds available
-    if funds >= minFunds then
-        return true
+
+    if source and source.uid == self.uid then
+        local ammount = Transaction.Ammount
+        local funds = self:GetFunds()
+        local preAuthorized = self:GetPreAuthorized()
+        local minFunds = preAuthorized + ammount
+
+        -- Check the PreAuthorized value is not bigger than the funds available
+        if funds >= minFunds then
+            return true
+        end
     end
+
+    Transaction:Cancel("Invalid transition") -- If the transition is not added to the queue it should be cancelled
     return false
 end
 
