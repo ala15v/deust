@@ -49,6 +49,8 @@ deust.utils.StaticRepair = false
 
 -- SECTION: Economy
 deust.Economy = {}
+deust.Economy.EconomyDB = {}
+deust.Economy.TransactionDB = {}
 deust.Economy.Main = false
 deust.Economy.Methods = false
 deust.Economy.Transactions = false

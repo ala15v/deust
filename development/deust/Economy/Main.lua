@@ -1,6 +1,7 @@
 -- ANCHOR: Class declaration
 Economy = {
     ClassName = "Economy",
+    uid = nil,
     Alias = nil,
     Coalition = nil,
     Funds = 0,
@@ -30,7 +31,8 @@ function Economy:New(alias, coalition)
 
     if not invalidInput then
         self.Alias = alias
-        self.LogHeader = string.format("Economy %s | ", self.alias)
+        self.uid = #deust.Economy.EconomyDB + 1
+        self.LogHeader = string.format("Economy %s | ", self.Alias)
         self.Coalition = string.lower(coalition) -- converting value to lower case
 
 
@@ -58,6 +60,7 @@ function Economy:New(alias, coalition)
         self:AddTransition("Running", "ProcessTransaction", "*")     -- Process the next transaction in the queue.
         -- !SECTION
 
+        table.insert(deust.Economy.EconomyDB, self)     -- Inserting the new class into the main Economy DataBase
         return self
     end
     env.error("Deust Economy.New(): Invalid Input")

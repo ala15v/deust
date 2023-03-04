@@ -2,6 +2,7 @@
 -- ANCHOR: Class declaration
 Transaction = {
     ClassName = "Transaction",
+    uid = nil,
     From = nil, -- #Economy
     To = nil,   -- #Economy
     Ammount = 0,
@@ -10,7 +11,7 @@ Transaction = {
 }
 
 -- ANCHOR: Constructor
-function Transaction:New(From, To, Ammount, Requester, Comment)
+function Transaction:New(From, To, Ammount, Comment)
     local From = From
     local To = To
     local Ammount = tonumber(Ammount)
@@ -40,6 +41,7 @@ function Transaction:New(From, To, Ammount, Requester, Comment)
     end
 
     -- ANCHOR: After validation
+    self.uid = #deust.Economy.TransactionDB + 1
     self.From = From
     self.To = To
     self.Ammount = Ammount
@@ -58,18 +60,23 @@ function Transaction:New(From, To, Ammount, Requester, Comment)
     self:AddTransition({ "None", "PreAuthorized" }, "Cancel", "Cancelled") -- Declare the Transaction as Cancelled.
     -- !SECTION
 
+    table.insert(deust.Economy.TransactionDB, self)     -- Inserting the new class into the main Transaction DataBase
     return self
 end
 
 -- !SECTION
 
 function Economy:onbeforeAddTransaction(From, Event, To, Transaction)
+    local destination = Transaction.To
     local ammount = Transaction.Ammount
     local funds = self:GetFunds()
     local preAuthorized = self:GetPreAuthorized()
     local minFunds = preAuthorized + ammount
 
-
+    -- Always preauthorized if the Economy object is receiving the transition
+    if destination.uid == self.uid then
+        return true
+    end
     -- Check the PreAuthorized value is not bigger than the funds available
     if funds >= minFunds then
         return true
@@ -94,8 +101,8 @@ function Economy:onbeforeProcessSelfTransaction(From, Event, To, Transaction)
 end
 
 function Economy:onafterProcessSelfTransaction(From, Event, To, Transaction)
+    self:DeleteQueueItem(Transaction, self.TransactionsQueue)
     Transaction:Approve()
-    Economy:DeleteQueueItem(Transaction, self.TransactionsQueue)
 end
 
 deust.Economy.Transactions = true
