@@ -88,7 +88,7 @@ function Economy:onbeforeCheckTransactions(From, Event, To)
 end
 
 function Economy:onafterCheckTransactions(From, Event, To)
-    local nTransactions = #self.TransactionsQueue -- REVIEW: This method might fail
+    local nTransactions = #self.TransactionsQueue
 
     if nTransactions > 0 then
         local nextTransaction = self.TransactionsQueue[1]
