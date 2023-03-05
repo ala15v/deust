@@ -100,24 +100,71 @@ function Economy:onbeforeAddTransaction(From, Event, To, Transaction)
 end
 
 function Economy:onafterAddTransaction(From, Event, To, Transaction)
-    Transaction:PreAuthorize()
+    local source = Transaction.From
+
+    Transaction:PreAuthorize() -- FSM is wonderful
     table.insert(self.TransactionsQueue, Transaction)
+    if source and source.uid == self.uid then
+        self:IncreasePreAuthorized(Transaction.Ammount) -- if the Economy is the source of the transition the preauthorized values is increased
+    end
 end
 
 function Economy:onbeforeProcessSelfTransaction(From, Event, To, Transaction)
-    if Transaction.From then
-        return self:Decrease(Transaction.Ammount)
+    local source = Transaction.From
+    local destination = Transaction.To
+
+    if source then
+        return self:DecreaseFunds(Transaction.Ammount)
     end
-    if Transaction.To then
-        return self:Increase(Transaction.Ammount)
+    if destination then
+        return self:IncreaseFunds(Transaction.Ammount)
     end
 
     return false
 end
 
 function Economy:onafterProcessSelfTransaction(From, Event, To, Transaction)
+    local source = Transaction.From
+
+    if source and source.uid == self.uid then
+        self:DecreasePreAuthorized(Transaction.Ammount) -- if the Economy is the source of the transition the preauthorized values is decreased
+    end
     self:DeleteQueueItem(Transaction, self.TransactionsQueue)
     Transaction:Approve()
+end
+
+function Economy:onbeforeProcessTransaction(From, Event, To, Transaction) --TODO
+    local source = Transaction.From
+    local destination = Transaction.To
+
+    if source and source.uid == self.uid then
+        return self:DecreaseFunds(Transaction.Ammount)
+    end
+    if destination and destination.uid == self.uid then
+        return self:IncreaseFunds(Transaction.Ammount)
+    end
+
+    return false
+end
+
+function Economy:onafterProcessTransaction(From, Event, To, Transaction) --TODO
+    local source = Transaction.From
+    local destination = Transaction.To
+
+    if destination and destination.uid == self.uid then
+        Transaction:Approve()
+    end
+    if source and source.uid == self.uid then
+        local Transaction = Transaction
+
+        function Transaction:onafterCancel(From, Event, To, Comment)
+            --TODO
+        end
+
+        self:DecreasePreAuthorized(Transaction.Ammount) -- if the Economy is the source of the transition the preauthorized values is decreased
+        destination:AddTransaction(Transaction)
+    end
+    self:DeleteQueueItem(Transaction, self.TransactionsQueue)
 end
 
 deust.Economy.Transactions = true
