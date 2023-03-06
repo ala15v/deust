@@ -105,4 +105,30 @@ function Economy:DeleteQueueItem(qitem, queue)
   end
 end
 
+function Economy:SetSavePath(value)
+    if type(value) == "string" then
+        self.SavePath = value
+        return true
+    end
+    return false
+end
+
+function Economy:SetSaveFile(value)
+    if type(value) == "string" then
+        self.SaveFile = value
+        return true
+    end
+    return false
+end
+
+function Economy:SetAutoSave(value)
+    local value = tonumber(value)
+    
+    if value then
+        self.AutoSave = value
+        return true
+    end
+    return false
+end
+
 deust.Economy.Methods = true

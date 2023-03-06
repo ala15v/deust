@@ -8,8 +8,9 @@ Economy = {
     PreAuthorized = 0,
     TransactionsQueue = {},
     TransactionsDelay = 30,
-    SavePath = lfs.writedir() .. "Economy\\",
+    SavePath = lfs.writedir() .. "Economy", -- C:\Users\<user>\Saved Games\DCS.openbeta\Economy -- NOTE: Path must exist
     SaveFile = nil,
+    AutoSave = nil,
     LogHeader = ""
 }
 
@@ -34,6 +35,7 @@ function Economy:New(alias, coalition)
         self.uid = #deust.Economy.EconomyDB + 1
         self.LogHeader = string.format("Economy %s | ", self.Alias)
         self.Coalition = string.lower(coalition) -- converting value to lower case
+        self.SaveFile = string.format("%s_Account.lua", self.Alias)
 
 
         -- SECTION: FSM Transitions
@@ -72,14 +74,30 @@ function Economy:onleaveNotReadyYet(From, Event, To)
     local Main = deust.Economy.Main
     local Methods = deust.Economy.Methods
     local Transactions = deust.Economy.Transactions
+    local Save = deust.Economy.Save
     -- Not many modules for now.... They are coming ;)
 
     -- TODO: Add logs
-    return (Main and Methods and Transactions) -- If FALSE it will stop the transition
+    return (Main and Methods and Transactions and Save) -- If FALSE it will stop the transition
 end
 
 function Economy:onafterStart(From, Event, To)
     self:__CheckTransactions(self.TransactionsDelay)
+    if self.AutoSave then
+        self:__Pause(self.AutoSave, true)
+    end
+end
+
+function Economy:onafterPause(From, Event, To, Save)
+    if Save then
+        self:Save()
+    end
+end
+
+function Economy:onafterUnpause(From, Event, To)
+    if self.AutoSave then
+        self:__Pause(self.AutoSave, true)
+    end
 end
 
 function Economy:onbeforeCheckTransactions(From, Event, To)

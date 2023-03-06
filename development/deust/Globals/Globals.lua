@@ -53,5 +53,6 @@ deust.Economy.EconomyDB = {}
 deust.Economy.TransactionDB = {}
 deust.Economy.Main = false
 deust.Economy.Methods = false
+deust.Economy.Save = false
 deust.Economy.Transactions = false
 -- !SECTION

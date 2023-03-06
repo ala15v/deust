@@ -133,7 +133,7 @@ function Economy:onafterProcessSelfTransaction(From, Event, To, Transaction)
     Transaction:Approve()
 end
 
-function Economy:onbeforeProcessTransaction(From, Event, To, Transaction) --TODO
+function Economy:onbeforeProcessTransaction(From, Event, To, Transaction)
     local source = Transaction.From
     local destination = Transaction.To
 
@@ -147,7 +147,7 @@ function Economy:onbeforeProcessTransaction(From, Event, To, Transaction) --TODO
     return false
 end
 
-function Economy:onafterProcessTransaction(From, Event, To, Transaction) --TODO
+function Economy:onafterProcessTransaction(From, Event, To, Transaction)
     local source = Transaction.From
     local destination = Transaction.To
 
