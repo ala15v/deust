@@ -78,6 +78,11 @@ function Economy:onbeforeAddTransaction(From, Event, To, Transaction)
     local source = Transaction.From
     local destination = Transaction.To
 
+    if From == "NotReadyYet" then -- This will postpone the process 10 seconds and avoid some possible problems
+        self:__AddTransaction(10, Transaction)
+        return false
+    end
+
     if destination and destination.uid == self.uid then
         -- Always preauthorized if the Economy object is receiving the transition
         return true
