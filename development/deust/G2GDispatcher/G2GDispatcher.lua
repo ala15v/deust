@@ -37,7 +37,7 @@ G2GDetection:Start()
 
 -- Define Chase Pursuit Groups
 deust.G2GDispatcher.ChasePursuitGroups = SET_GROUP:New():FilterPrefixes(deust.G2GDispatcher.GroundChasingGroupPrefix):FilterStart()
-deust.G2GDispatcher.AutocargoChasePursuitGroups = SET_GROUP:New():FilterPrefixes(deust.G2GDispatcher.GroundAutocargoChasingGroupPrefix):FilterStart()
+deust.G2GDispatcher.AutocargoChasePursuitGroups = SET_GROUP:New():FilterPrefixes(deust.G2GDispatcher.GroundAutocargoChasingCarrierPrefix):FilterStart()
 -- Save initial position
 deust.G2GDispatcher.ChasePursuitGroups:ForEachGroup(function(ChaserGroup)
     deust.G2GDispatcher.ChasingGroups[ChaserGroup.GroupName] = {}
@@ -92,9 +92,6 @@ function G2GDetection:OnAfterDetectedItem(From, Event, To, DetectedItem)
                     end
                 elseif isAutoCargoChaseGroup then
                     local route, reliable = group:TaskGroundOnRoad(intercept:GetCoordinate(), deust.G2GDispatcher.InterceptSpeed, 'On Road', true, nil)
-                    local waypoint = intercept:GetCoordinate():WaypointGround()
-                    waypoint.task = route[#route].task
-                    route[#route+1]=waypoint
                     group:Route(route, 2)
                     group:OptionROEWeaponFree()
                     group:OptionAlarmStateRed()
