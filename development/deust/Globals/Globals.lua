@@ -19,6 +19,18 @@ deust.G2ADispatcher.ChasePursuitGroups = {}
 deust.G2ADispatcher.AutocargoChasePursuitGroups = {}
 deust.G2ADispatcher.ChasingGroups = {}
 deust.G2ADispatcher.ChasingGroupsPrefix = 'ChasePursuitGroup'
+
+deust.G2GDispatcher = {}
+deust.G2GDispatcher.ChasingGroups = {}
+deust.G2GDispatcher.GroundSpotterPrefix = 'GSpotter'
+deust.G2GDispatcher.GroundChasingGroupPrefix = 'GChaser'
+deust.G2GDispatcher.GroundAutocargoChasingGroupPrefix = 'GAutocargoChaser'
+deust.G2GDispatcher.DetectionRange = 5000
+deust.G2GDispatcher.FriendliesRange = 5000
+deust.G2GDispatcher.DetectionRefresh = 30
+deust.G2GDispatcher.AnticipationSeconds = 30
+deust.G2GDispatcher.InterceptSpeed = 40
+
 deust.Autocargo = {}
 deust.Autocargo.CarrierPrefix = 'Autocargo'
 deust.AutocargoAndChaser = {}
