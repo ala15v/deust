@@ -7,6 +7,7 @@
 -- * aprovechar carretera
 -- * utilizar UNIT:GetThreatLevel() para calibrar la fuerza enemiga con la que se enfrenta, es decir
 -- ref: https://flightcontrol-master.github.io/MOOSE_DOCS/Documentation/Wrapper.Unit.html##(UNIT).GetThreatLevel
+_deustlog_info('[MODULE] G2GDispatcher loading')
 
 local _DEBUG = false
 
@@ -106,3 +107,5 @@ function G2GDetection:OnAfterDetectedItem(From, Event, To, DetectedItem)
         end
     end
 end
+
+_deustlog_info('[MODULE] G2GDispatcher loaded')

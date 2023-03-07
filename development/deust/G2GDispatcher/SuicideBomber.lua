@@ -5,8 +5,8 @@ local SuicideBomberRadius = 300
 local DetectionMeters = 20
 local HighExplosionMin = 150
 local HighExplosionMax = 300
-local LowExplosionMin = 30
-local LowExposionMax = 60
+local LowExplosionMin = 50
+local LowExposionMax = 100
 local ExplosionDelay = 2
 local ScanTime = 60
 
