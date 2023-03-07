@@ -49,3 +49,13 @@ CarrierCandidates:ForEachGroup(function(CarrierGroup)
     end
 end)
 
+-- Ground Chaser Autocargo
+-- Chaser Autocargo
+local GroundCarrierCandidates = SET_GROUP:New():FilterPrefixes(deust.G2GDispatcher.GroundAutocargoChasingCarrierPrefix):FilterOnce()
+GroundCarrierCandidates:ForEachGroup(function(CarrierGroup)
+    -- Avoid _Cargo suffix
+    local found = string.find(CarrierGroup.GroupName, deust.Autocargo.CargoSuffix)
+    if not found then
+        InfantryCargoRandomRouteBasedOnGroupNameLite(CarrierGroup.GroupName, deust.G2GDispatcher.ThreatDistance)
+    end
+end)
