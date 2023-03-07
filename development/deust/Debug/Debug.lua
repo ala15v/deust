@@ -20,6 +20,10 @@ function _deustlog_info(message)
     _deustlog('info', message)
 end
 
+function _deustlog_warn(message)
+    _deustlog('warn', message)
+end
+
 function _deustlog_debug(message)
     if _deustdebug then
         _deustlog( 'debug', message )
