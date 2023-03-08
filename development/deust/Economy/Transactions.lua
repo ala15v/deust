@@ -1,3 +1,65 @@
+--[[
+
+# Transaction
+
+This class represent a transaction in the Economy class. It is espected to be used along with the Economy class and it offers customizable events to react when the Transaction state changes.
+
+## Transaction:New(From, To, Ammount, Comment)
+
+It initiate a new instance of the class Transaction.
+
+> ### Rules
+>
+> - The parameters *From* and *To* can not point to the same Economy object
+> - The parameters *From* and *To* can not be **both** nil
+> - If one of those are nil the transaction is considerated a self transaction
+> - The ammount must be always positive
+
+> ### **Parameters**
+>
+> |         Name           |       Type        |                                     Description                                         |
+> |:----------------------:|:-----------------:|:----------------------------------------------------------------------------------------|
+> |         From           |       Table       | This is the money source Economy object                                                 |
+> |          To            |       Table       | This is the money destination Economy object                                            |
+> |        Ammount         |       Integer     | This is the ammount of money transfered                                                 |
+> |        Comment         |       String      | This is a comment that can be added. Not used yet                                       |
+
+> ### **Return**
+>
+> |     Name        |             Type               |                       Description                            |
+> |:---------------:|:------------------------------:|:-------------------------------------------------------------|
+> |     Transaction      |            Table              | New instance of the class Transaction                            |
+
+> ### **Example**
+>
+> Self Transaction
+>
+>> Input: `MyTransaction = Transaction:New(nil, MyEconomy, 2300, nil)`
+>
+>Transaction to a different Economy
+>
+>> Input: `MyTransaction = Transaction:New(MyEconomy, AnotherEconomy, 1300, nil)`
+
+## Events:
+
+- `Transaction:OnBeforePreAuthorize(From, Event, To)`
+- `Transaction:OnAfterPreAuthorize(From, Event, To)`
+- `Transaction:OnBeforeApprove(From, Event, To)`
+- `Transaction:OnAfterApprove(From, Event, To)`
+- `Transaction:OnBeforeCancel(From, Event, To, Comment)`
+- `Transaction:OnAfterCancel(From, Event, To, Comment)`
+
+> ### **Example**
+>
+> ```lua
+> function MyTransaction:OnAfterApprove(From, Event, To)
+>    -- Your code that will be executed after the transaction is approved
+> end
+> ```
+
+]]--
+
+
 -- SECTION: Class Transaction
 -- ANCHOR: Class declaration
 Transaction = {
