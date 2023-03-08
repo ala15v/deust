@@ -298,6 +298,12 @@ function Economy:onafterStart(From, Event, To)
     if self.AutoSave then
         self:__Pause(self.AutoSave, true)
     end
+    
+    self.I(self.LogHeader .. "STARTED")
+end
+
+function Economy:onafterStop(From, Event, To)
+    self.I(self.LogHeader .. "STOPPED")
 end
 
 function Economy:onafterPause(From, Event, To, Save)

@@ -162,6 +162,7 @@ function Economy:onbeforeAddTransaction(From, Event, To, Transaction)
         end
     end
 
+    self.E(self.LogHeader .. "The transaction couldn't be added to the queue " .. {Economy = self, Transaction = Transaction})
     Transaction:Cancel("Invalid transition") -- If the transition is not added to the queue it should be cancelled
     return false
 end
@@ -174,6 +175,8 @@ function Economy:onafterAddTransaction(From, Event, To, Transaction)
     if source and source.uid == self.uid then
         self:IncreasePreAuthorized(Transaction.Ammount) -- if the Economy is the source of the transition the preauthorized values is increased
     end
+
+    self.I(self.LogHeader .. "New transaction added")
 end
 
 function Economy:onbeforeProcessSelfTransaction(From, Event, To, Transaction)
