@@ -4,7 +4,7 @@
 
 This class performes as a bank. It offers methods and events to handle the movement of fictional money. To get the best experience, this class should be use in convination with other classes and functions. The class also offers a way to save in disk and restore the current state of the economy.
 
-## Economy:New(alias, coalition)
+## Economy:New(alias)
 
 It initiate a new instance of the class Economy
 
@@ -13,7 +13,6 @@ It initiate a new instance of the class Economy
 > |         Name            |       Type        |         Options         |                                     Description                                         |
 > |:-----------------------:|:-----------------:|:-----------------------:|:----------------------------------------------------------------------------------------|
 > |         alias           |       String      |                         | This is the name that the object will be known by                                       |
-> |       coalition         |       String      | *`"blue"`* \| *`"red"`* | This is the coalition name                                                              |
 
 > ### **Return**
 >
@@ -215,7 +214,6 @@ Economy = {
     ClassName = "Economy",
     uid = nil,
     Alias = nil,
-    Coalition = nil,
     Funds = 0,
     PreAuthorized = 0,
     TransactionsQueue = {},
@@ -228,7 +226,7 @@ Economy = {
 
 -- ANCHOR: Constructor
 -- TODO: Add logs
-function Economy:New(alias, coalition)
+function Economy:New(alias)
     -- Input validation
     local invalidInput = false
 
@@ -238,15 +236,11 @@ function Economy:New(alias, coalition)
     if type(alias) ~= "string" then
         invalidInput = true
     end
-    if type(coalition) ~= "string" then
-        invalidInput = true
-    end
 
     if not invalidInput then
         self.Alias = alias
         self.uid = #deust.Economy.EconomyDB + 1
         self.LogHeader = string.format("Economy %s | ", self.Alias)
-        self.Coalition = string.lower(coalition) -- converting value to lower case
         self.SaveFile = string.format("%s_Account.lua", self.Alias)
 
 

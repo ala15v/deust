@@ -26,9 +26,9 @@ It initiate a new instance of the class Transaction.
 
 > ### **Return**
 >
-> |     Name        |             Type               |                       Description                            |
-> |:---------------:|:------------------------------:|:-------------------------------------------------------------|
-> |     Transaction      |            Table              | New instance of the class Transaction                            |
+> |        Name          |             Type               |                       Description                            |
+> |:--------------------:|:------------------------------:|:-------------------------------------------------------------|
+> |     Transaction      |            Table               | New instance of the class Transaction                        |
 
 > ### **Example**
 >
