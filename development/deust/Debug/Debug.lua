@@ -1,14 +1,11 @@
---
--- =ALA15V= Mac Tools
---
-local _deustdebug = false
+_deustdebug = false
 
 if _deustdebug then
     BASE:TraceOn()
 end
 
 
-local function _deustlog(level, message)
+function _deustlog(level, message)
     local prefix = string.format('[DEUST %s LOG]: ', string.upper(level))
     local fullmessage = string.format( '%s%s', prefix, message)
     if (level == 'info')
@@ -19,11 +16,15 @@ local function _deustlog(level, message)
     end
 end
 
-local  function _deustlog_info(message)
+function _deustlog_info(message)
     _deustlog('info', message)
 end
 
-local function _deustlog_debug(message)
+function _deustlog_warn(message)
+    _deustlog('warn', message)
+end
+
+function _deustlog_debug(message)
     if _deustdebug then
         _deustlog( 'debug', message )
     end

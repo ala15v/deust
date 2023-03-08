@@ -48,7 +48,7 @@ end
 -- Propiedas de DetectedItem
 -- https://flightcontrol-master.github.io/MOOSE_DOCS/Documentation/Functional.Detection.html##(DETECTION_BASE.DetectedItem)
 function RedDetection:OnAfterDetectedItem(From, Event, To, DetectedItem)
-    local limit_chasing = 2
+    local limit_chasing = 3
     local counter_chasing = 0
 
     self:CalculateIntercept(DetectedItem)
