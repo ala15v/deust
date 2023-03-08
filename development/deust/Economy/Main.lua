@@ -22,7 +22,7 @@ It initiate a new instance of the class Economy
 
 > ### **Example**
 >
->> Input: `MyEconomy = Economy:New("OP_Bank", "blue")`
+>> Input: `MyEconomy = Economy:New("OP_Bank")`
 
 ## Economy:SetFunds(value)
 
