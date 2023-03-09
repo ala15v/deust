@@ -49,3 +49,8 @@ deust.utils = {}
 deust.utils.StaticRepair = false
 deust.utils.CreateNameMGRS = false
 -- !SECTION
+
+-- SECTION: TotalWar
+deust.TotalWar = {}
+deust.TotalWar.StrategicZones = {}
+-- !SECTION
