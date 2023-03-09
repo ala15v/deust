@@ -1,3 +1,39 @@
+--[[
+
+# StrategicZone
+
+This class Inherit the OPSZONE class from Moose and adds 4 new properties to help the editor to classify the OPSZONE
+
+## StrategicZone:New(ZoneName)
+
+It initiate a new instance of the class StrategicZone
+
+> ### **Parameters**
+>
+> |           Name             |       Type        |                                     Description                                         |
+> |:--------------------------:|:-----------------:|:----------------------------------------------------------------------------------------|
+> |         ZoneName           |       String      | This is the name of a trigger zone in the mission editor                                |
+
+> ### **Return**
+>
+> |         Name           |             Type               |                       Description                            |
+> |:----------------------:|:------------------------------:|:-------------------------------------------------------------|
+> |     StrategicZone      |            Table               | New instance of the class StrategicZone                      |
+
+> ### **Example**
+>
+>> Input: `MyStrategicZone = StrategicZone:New("Factory StrategicZone")`
+
+## StrategicZone:ScanMap()
+
+This is a function that scans the map searching for trigger zones with the prefix *"StrategicZone"*, *"SamSite"*, *"CheckPoint"* or *"SeaZone"* in the name. The function creates one OPSZONE for each zone with one of those prefix in the name. This function should be only call at the mission start.
+
+> ### **Example**
+>
+>> Input: `StrategicZone.ScanMap()`
+
+]]--
+
 -- ANCHOR: Class declaration
 StrategicZone = {
     IsStrategicZone = false,
