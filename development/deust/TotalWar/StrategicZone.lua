@@ -44,7 +44,7 @@ StrategicZone = {
 
 -- ANCHOR: Constructor
 function StrategicZone:New(ZoneName)
-    -- Inherit everthing from FSM class.
+    -- Inherit everthing from OPSZONE class.
     local self = BASE:Inherit(self, OPSZONE:New(ZoneName)) -- #OPSZONE
 
     -- Detect the type of zone
