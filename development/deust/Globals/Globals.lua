@@ -50,6 +50,17 @@ deust.utils.StaticRepair = false
 deust.utils.CreateNameMGRS = false
 -- !SECTION
 
+
+-- SECTION: Economy
+deust.Economy = {}
+deust.Economy.EconomyDB = {}
+deust.Economy.TransactionDB = {}
+deust.Economy.Main = false
+deust.Economy.Methods = false
+deust.Economy.Save = false
+deust.Economy.Transactions = false
+-- !SECTION
+
 -- SECTION: TotalWar
 deust.TotalWar = {}
 deust.TotalWar.StrategicZones = {}
