@@ -51,10 +51,11 @@ end
 function TotalWar:onleaveNotReadyYet(From, Event, To)
     -- Checking all components are loaded
     local Main = deust.TotalWar.Main
+    local Methods = deust.TotalWar.Methods
     -- Not many modules for now.... They are coming ;)
 
     -- TODO: Add logs
-    return (Main) -- If FALSE it will stop the transition
+    return (Main and Methods) -- If FALSE it will stop the transition
 end
 
 deust.TotalWar.Main = true

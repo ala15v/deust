@@ -65,4 +65,6 @@ deust.Economy.Transactions = false
 deust.TotalWar = {}
 deust.TotalWar.StrategicZones = {}
 deust.TotalWar.TotalWarDB = {}
+deust.TotalWar.Main = false
+deust.TotalWar.Methods = false
 -- !SECTION
