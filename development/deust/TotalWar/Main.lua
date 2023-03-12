@@ -15,9 +15,11 @@ TotalWar = {
 
 -- ANCHOR: Constructor
 function TotalWar:New(Settings)
+    local Settings = Settings
     -- Inherit everthing from FSM class.
     local self = BASE:Inherit(self, FSM:New()) -- #Economy
 
+    self.Settings = Settings
     self.Alias = Settings.Alias
     self.uid = #deust.TotalWar.TotalWarDB + 1
     self.LogHeader = string.format("TotalWar %s | ", self.Alias)
@@ -56,6 +58,44 @@ function TotalWar:onleaveNotReadyYet(From, Event, To)
 
     -- TODO: Add logs
     return (Main and Methods) -- If FALSE it will stop the transition
+end
+
+function TotalWar:onbeforeStart(From, Event, To)
+    local Settings = self.Settings
+
+    -- Scan zones
+    self:ScanBorderZones()
+    self:ScanConflictZones()
+    self:ScanAttackZones()
+
+    local BorderZones = self.BorderZones
+    local ConflictZones = self.ConflictZones
+    local AttackZones = self.AttackZones
+
+    -- Scan agent set
+    local AgentSet = SET_GROUP:New()
+    AgentSet:FilterPrefixes(Settings.AgentPrefixes)
+    AgentSet:FilterStart()
+
+    -- Generate a new chief
+    local Coalition = Settings.TeamCoalition
+    local Strategy = Settings.Strategy
+    local Alias = Settings.Alias
+    self.Chief = self:GenerateChief(Coalition, BorderZones, ConflictZones, AttackZones, Strategy, AgentSet, Alias)
+
+    return true
+end
+
+function TotalWar:onafterStart(From, Event, To)
+    self:AddCapZones()
+    self:AddAwacsZones()
+    self:AddTankerZones()
+    self:AddBrigades()
+    self:AddAirwings()
+    self:AddFlotillas()
+    self:AddStrategicZones()
+
+    self:Ready()
 end
 
 deust.TotalWar.Main = true
