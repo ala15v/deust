@@ -68,9 +68,10 @@ function TotalWar:onleaveNotReadyYet(From, Event, To)
     local Methods = deust.TotalWar.Methods
     local Zones = deust.TotalWar.Zones
     local Brigades = deust.TotalWar.Brigades
+    local Airwings = deust.TotalWar.Airwings
 
     -- TODO: Add logs
-    return (Main and Methods and Zones and Brigades) -- If FALSE it will stop the transition
+    return (Main and Methods and Zones and Brigades and Airwings) -- If FALSE it will stop the transition
 end
 
 function TotalWar:onbeforeStart(From, Event, To)
