@@ -66,10 +66,11 @@ function TotalWar:onleaveNotReadyYet(From, Event, To)
     -- Checking all components are loaded
     local Main = deust.TotalWar.Main
     local Methods = deust.TotalWar.Methods
+    local Zones = deust.TotalWar.Zones
     -- Not many modules for now.... They are coming ;)
 
     -- TODO: Add logs
-    return (Main and Methods) -- If FALSE it will stop the transition
+    return (Main and Methods and Zones) -- If FALSE it will stop the transition
 end
 
 function TotalWar:onbeforeStart(From, Event, To)

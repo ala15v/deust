@@ -67,4 +67,5 @@ deust.TotalWar.StrategicZones = {}
 deust.TotalWar.TotalWarDB = {}
 deust.TotalWar.Main = false
 deust.TotalWar.Methods = false
+deust.TotalWar.Zones = false
 -- !SECTION
