@@ -222,4 +222,30 @@ function TotalWar:GenerateChief(ChiefCoalition, BorderZones, ConflictZones, Atta
     return Chief
 end
 
+function TotalWar:GetWarehouseAssetProduction(coor, factory, range, rate, coalition)
+    local coalition = coalition
+    local zone = ZONE_RADIUS:New("scanfactorieszone", coor, range)
+    --zone:SetRadius(range)
+    --zone:SetVec2(coor)
+
+    if type(coalition) ~= "string" then
+        coalition = string.lower(UTILS.GetCoalitionName(coalition))
+    end
+
+    local statics = SET_STATIC:New()
+    statics:FilterCoalitions(coalition)
+    statics:FilterPrefixes(factory)
+    statics:FilterZones({zone})
+    statics:FilterOnce()
+
+    local FactoryCount = 0
+
+    for _, static in pairs(statics:GetSet()) do
+        if static:IsAlive() then
+            FactoryCount = FactoryCount + 1
+        end
+    end
+    return FactoryCount * rate
+end
+
 deust.TotalWar.Methods = true
