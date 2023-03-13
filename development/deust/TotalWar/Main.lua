@@ -8,9 +8,13 @@ TotalWar = {
     Chief = nil,
     Economy = nil,
     Factory = nil,
-    BorderZones = nil,
-    ConflictZones = nil,
-    AttackZones = nil
+    Zones = {
+        BorderZones = nil,
+        ConflictZones = nil,
+        AttackZones = nil,
+        SpZones = nil,
+        PortZones = nil
+    }
 }
 
 -- ANCHOR: Constructor
@@ -23,9 +27,11 @@ function TotalWar:New(Settings)
     self.Alias = Settings.Alias
     self.uid = #deust.TotalWar.TotalWarDB + 1
     self.LogHeader = string.format("TotalWar %s | ", self.Alias)
-    self.BorderZones = SET_ZONE:New()
-    self.ConflictZones = SET_ZONE:New()
-    self.AttackZones = SET_ZONE:New()
+    self.Zones.BorderZones = SET_ZONE:New()
+    self.Zones.ConflictZones = SET_ZONE:New()
+    self.Zones.AttackZones = SET_ZONE:New()
+    self.Zones.SpZones = SET_ZONE:New()
+    self.Zones.PortZones = SET_ZONE:New()
 
     -- SECTION: FSM Transitions
     -- Start State.
@@ -33,20 +39,26 @@ function TotalWar:New(Settings)
 
     -- Add FSM transitions.
     --                 From State   -->         Event        -->     To State
-    self:AddTransition("NotReadyYet", "Start", "Starting")            -- Start the TotalWar from scratch.
+    self:AddTransition("NotReadyYet", "Start", "Starting")      -- Start the TotalWar from scratch.
 
-    self:AddTransition("Starting", "AddCapZones", "*")                   -- Add Cap Zones to the Chief.
-    self:AddTransition("Starting", "AddAwacsZones", "*")                   -- Add Awacs Zones to the Chief.
-    self:AddTransition("Starting", "AddTankerZones", "*")                   -- Add Tanker Zones to the Chief.
-    self:AddTransition("Starting", "AddStrategicZones", "*")                   -- Add Strategic Zones to the Chief.
-    self:AddTransition("Starting", "AddBrigades", "*")                   -- Add Brigades to the Chief.
-    self:AddTransition("Starting", "AddAirwings", "*")                   -- Add Airwings to the Chief.
-    self:AddTransition("Starting", "AddFlotillas", "*")                   -- Add Flotillas to the Chief.
+    self:AddTransition("NotReadyYet", "ScanBorderZones", "*")   -- Scan Border Zones.
+    self:AddTransition("NotReadyYet", "ScanConflictZones", "*") -- Scan Conflict Zones.
+    self:AddTransition("NotReadyYet", "ScanAttackZones", "*")   -- Scan Attack Zones.
+    self:AddTransition("NotReadyYet", "ScanSpZones", "*")       -- Scan Spawn Zones.
+    self:AddTransition("NotReadyYet", "ScanPortZones", "*")     -- Scan Port Zones.
 
-    self:AddTransition("Starting", "Ready", "Running")                   -- Everything is ready.
+    self:AddTransition("Starting", "AddCapZones", "*")          -- Add Cap Zones to the Chief.
+    self:AddTransition("Starting", "AddAwacsZones", "*")        -- Add Awacs Zones to the Chief.
+    self:AddTransition("Starting", "AddTankerZones", "*")       -- Add Tanker Zones to the Chief.
+    self:AddTransition("Starting", "AddStrategicZones", "*")    -- Add Strategic Zones to the Chief.
+    self:AddTransition("Starting", "AddBrigades", "*")          -- Add Brigades to the Chief.
+    self:AddTransition("Starting", "AddAirwings", "*")          -- Add Airwings to the Chief.
+    self:AddTransition("Starting", "AddFlotillas", "*")         -- Add Flotillas to the Chief.
+
+    self:AddTransition("Starting", "Ready", "Running")          -- Everything is ready.
     -- !SECTION
 
-    table.insert(deust.TotalWar.TotalWarDB, self)     -- Inserting the new class into the main Economy DataBase
+    table.insert(deust.TotalWar.TotalWarDB, self) -- Inserting the new class into the main Economy DataBase
     return self
 end
 
@@ -67,10 +79,12 @@ function TotalWar:onbeforeStart(From, Event, To)
     self:ScanBorderZones()
     self:ScanConflictZones()
     self:ScanAttackZones()
+    self:ScanSpZones()
+    self:ScanPortZones()
 
-    local BorderZones = self.BorderZones
-    local ConflictZones = self.ConflictZones
-    local AttackZones = self.AttackZones
+    local BorderZones = self.Zones.BorderZones
+    local ConflictZones = self.Zones.ConflictZones
+    local AttackZones = self.Zones.AttackZones
 
     -- Scan agent set
     local AgentSet = SET_GROUP:New()
@@ -87,13 +101,13 @@ function TotalWar:onbeforeStart(From, Event, To)
 end
 
 function TotalWar:onafterStart(From, Event, To)
-    self:AddCapZones()
-    self:AddAwacsZones()
-    self:AddTankerZones()
     self:AddBrigades()
     self:AddAirwings()
     self:AddFlotillas()
     self:AddStrategicZones()
+    self:AddCapZones()
+    self:AddAwacsZones()
+    self:AddTankerZones()
 
     self:Ready()
 end

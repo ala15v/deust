@@ -1,61 +1,7 @@
-function TotalWar:ScanBorderZones()
-    local prefix = self.Settings.MainPrefix .. " BorderZone"
-
-    self.BorderZones:FilterPrefixes(prefix)
-    self.BorderZones:FilterOnce()
-
-    local PolygonBorderZones = SET_GROUP:New()
-    PolygonBorderZones:FilterPrefixes(prefix)
-    PolygonBorderZones:FilterOnce()
-
-    for _, zone in pairs(PolygonBorderZones:GetSet()) do
-        local zone = ZONE_POLYGON:New(zone:GetName(), zone)
-        self.BorderZones:AddZone(zone)
-    end
-
-    return true
-end
-
-function TotalWar:ScanConflictZones()
-    local prefix = self.Settings.MainPrefix .. " ConflictZone"
-
-    self.ConflictZones:FilterPrefixes(prefix)
-    self.ConflictZones:FilterOnce()
-
-    local PolygonConflictZones = SET_GROUP:New()
-    PolygonConflictZones:FilterPrefixes(prefix)
-    PolygonConflictZones:FilterOnce()
-
-    for _, zone in pairs(PolygonConflictZones:GetSet()) do
-        local zone = ZONE_POLYGON:New(zone:GetName(), zone)
-        self.ConflictZones:AddZone(zone)
-    end
-
-    return true
-end
-
-function TotalWar:ScanAttackZones()
-    local prefix = self.Settings.MainPrefix .. " AttackZone"
-
-    self.AttackZones:FilterPrefixes(prefix)
-    self.AttackZones:FilterOnce()
-
-    local PolygonAttackZones = SET_GROUP:New()
-    PolygonAttackZones:FilterPrefixes(prefix)
-    PolygonAttackZones:FilterOnce()
-
-    for _, zone in pairs(PolygonAttackZones:GetSet()) do
-        local zone = ZONE_POLYGON:New(zone:GetName(), zone)
-        self.AttackZones:AddZone(zone)
-    end
-
-    return true
-end
-
 function TotalWar:GeneratePlatoon(TemplateGroupName, Ngroups, Nunits, Skill, PlatoonName, Capability)
     -- check exists
     self:T(self.LogHeader .. "GeneratePlatoon function: Checking if the asset, " ..
-    TemplateGroupName .. ", exists in the mission")
+        TemplateGroupName .. ", exists in the mission")
     if Group.getByName(TemplateGroupName) then
         -- check is ground unit
         self:T(self.LogHeader .. "GeneratePlatoon function: Checking the template category is " .. Group.Category.GROUND)
@@ -74,13 +20,13 @@ function TotalWar:GeneratePlatoon(TemplateGroupName, Ngroups, Nunits, Skill, Pla
             return Platoon
         else
             self:E(self.LogHeader .. "GeneratePlatoon function: Template category: " ..
-            Group.getByName(TemplateGroupName):getCategory() .. " Expected: " .. Group.Category.GROUND)
+                Group.getByName(TemplateGroupName):getCategory() .. " Expected: " .. Group.Category.GROUND)
 
             return false
         end
     else
         self:E(self.LogHeader .. "GeneratePlatoon function: The asset, " ..
-        TemplateGroupName .. ", does not exist in the mission")
+            TemplateGroupName .. ", does not exist in the mission")
 
         return false
     end
@@ -89,11 +35,11 @@ end
 function TotalWar:GenerateSquadron(TemplateGroupName, Ngroups, Nunits, Range, Skill, SquadronName, Capability, Scramble)
     -- check exists
     self:T(self.LogHeader .. "GenerateSquadron function: Checking if the asset, " ..
-    TemplateGroupName .. ", exists in the mission")
+        TemplateGroupName .. ", exists in the mission")
     if Group.getByName(TemplateGroupName) then
         -- check is ground unit
         self:T(self.LogHeader .. "GenerateSquadron function: Checking the template category is " ..
-        Group.Category.AIRPLANE .. "/" .. Group.Category.HELICOPTER)
+            Group.Category.AIRPLANE .. "/" .. Group.Category.HELICOPTER)
         if (Group.getByName(TemplateGroupName):getCategory() == Group.Category.AIRPLANE) or
             (Group.getByName(TemplateGroupName):getCategory() == Group.Category.HELICOPTER) then -- I should use moose first
             local Squadron = SQUADRON:New(TemplateGroupName, Ngroups, SquadronName)
@@ -114,14 +60,14 @@ function TotalWar:GenerateSquadron(TemplateGroupName, Ngroups, Nunits, Range, Sk
             return Squadron
         else
             self:E(self.LogHeader .. "GenerateSquadron function: Template category: " ..
-            Group.getByName(TemplateGroupName):getCategory() ..
-            " Expected: " .. Group.Category.AIRPLANE .. "/" .. Group.Category.HELICOPTER)
+                Group.getByName(TemplateGroupName):getCategory() ..
+                " Expected: " .. Group.Category.AIRPLANE .. "/" .. Group.Category.HELICOPTER)
 
             return false
         end
     else
         self:E(self.LogHeader .. "GenerateSquadron function: The asset, " ..
-        TemplateGroupName .. ", does not exist in the mission")
+            TemplateGroupName .. ", does not exist in the mission")
 
         return false
     end
@@ -130,7 +76,7 @@ end
 function TotalWar:GenerateFlotilla(TemplateGroupName, Ngroups, Nunits, Skill, FlotillaName, Capability)
     -- check exists
     self:T(self.LogHeader .. "GenerateFlotilla function: Checking if the asset, " ..
-    TemplateGroupName .. ", exists in the mission")
+        TemplateGroupName .. ", exists in the mission")
     if Group.getByName(TemplateGroupName) then
         -- check is ground unit
         self:T(self.LogHeader .. "GenerateFlotilla function: Checking the template category is " .. Group.Category.SHIP)
@@ -149,14 +95,14 @@ function TotalWar:GenerateFlotilla(TemplateGroupName, Ngroups, Nunits, Skill, Fl
             return Flotilla
         else
             self:E(self.LogHeader .. "GenerateFlotilla function: Template category: " ..
-            Group.getByName(TemplateGroupName):getCategory() ..
-            " Expected: " .. Group.Category.SHIP)
+                Group.getByName(TemplateGroupName):getCategory() ..
+                " Expected: " .. Group.Category.SHIP)
 
             return false
         end
     else
         self:E(self.LogHeader .. "GenerateFlotilla function: The asset, " ..
-        TemplateGroupName .. ", does not exist in the mission")
+            TemplateGroupName .. ", does not exist in the mission")
 
         return false
     end
@@ -164,12 +110,12 @@ end
 
 function TotalWar:GenerateBrigade(Brigade, Alias, SpawnZone, BrigadeCoalition) -- alias not needed?
     self:T(self.LogHeader .. "GenerateBrigade function: Checking if the warehouse, " ..
-    Brigade .. ", exists in the mission")
+        Brigade .. ", exists in the mission")
     if StaticObject.getByName(Brigade) then
         self:T(self.LogHeader .. "GenerateBrigade function: Checking if the warehouse, " .. Brigade .. ", is alive")
         if STATIC:FindByName(Brigade):IsAlive() then
             self:T(self.LogHeader .. "GenerateBrigade function: Checking if the warehouse, " ..
-            Brigade .. ", belongs to the coalition " .. BrigadeCoalition)
+                Brigade .. ", belongs to the coalition " .. BrigadeCoalition)
             if STATIC:FindByName(Brigade):GetCoalition() == BrigadeCoalition then
                 local Brigade = BRIGADE:New(Brigade, Alias) --Ops.Brigade#BRIGADE
                 if SpawnZone then
@@ -179,19 +125,19 @@ function TotalWar:GenerateBrigade(Brigade, Alias, SpawnZone, BrigadeCoalition) -
                 return Brigade
             else
                 self:T(self.LogHeader .. "GenerateBrigade function: The warehouse, " ..
-                Brigade .. ", does not belong to the coalition " .. BrigadeCoalition)
+                    Brigade .. ", does not belong to the coalition " .. BrigadeCoalition)
 
                 return false
             end
         else
             self:T(self.LogHeader .. "GenerateBrigade function: The warehouse, " ..
-            Brigade .. ", is not alive")
+                Brigade .. ", is not alive")
 
             return false
         end
     else
         self:E(self.LogHeader .. "GenerateBrigade function: The warehouse, " ..
-        Brigade .. ", does not exist in the mission")
+            Brigade .. ", does not exist in the mission")
 
         return false
     end
@@ -199,19 +145,19 @@ end
 
 function TotalWar:GenerateAirwing(Airwing, Alias, AirwingCoalition) -- alias not needed?
     self:T(self.LogHeader .. "GenerateAirwing function: Checking if the warehouse, " ..
-    Airwing .. ", exists in the mission")
+        Airwing .. ", exists in the mission")
     if StaticObject.getByName(Airwing) then
         self:T(self.LogHeader .. "GenerateAirwing function: Checking if the warehouse, " .. Airwing .. ", is alive")
         if STATIC:FindByName(Airwing):IsAlive() then
             self:T(self.LogHeader .. "GenerateAirwing function: Checking if the warehouse, " ..
-            Airwing .. ", belongs to the coalition " .. AirwingCoalition)
+                Airwing .. ", belongs to the coalition " .. AirwingCoalition)
             if STATIC:FindByName(Airwing):GetCoalition() == AirwingCoalition then
                 local Airwing = AIRWING:New(Airwing, Alias) --Ops.Airwing#AIRWING
 
                 return Airwing
             else
                 self:T(self.LogHeader .. "GenerateAirwing function: The warehouse, " ..
-                Airwing .. ", does not belong to the coalition " .. AirwingCoalition)
+                    Airwing .. ", does not belong to the coalition " .. AirwingCoalition)
 
                 return false
             end
@@ -222,7 +168,7 @@ function TotalWar:GenerateAirwing(Airwing, Alias, AirwingCoalition) -- alias not
         end
     else
         self:E(self.LogHeader .. "GenerateAirwing function: The warehouse, " ..
-        Airwing .. ", does not exist in the mission")
+            Airwing .. ", does not exist in the mission")
 
         return false
     end
@@ -230,12 +176,12 @@ end
 
 function TotalWar:GenerateFleet(Fleet, Alias, PortZone, FleetCoalition, Pathfinding) -- alias not needed?
     self:T(self.LogHeader .. "GenerateFleet function: Checking if the warehouse, " ..
-    Fleet .. ", exists in the mission")
+        Fleet .. ", exists in the mission")
     if StaticObject.getByName(Fleet) then
         self:T(self.LogHeader .. "GenerateFleet function: Checking if the warehouse, " .. Fleet .. ", is alive")
         if STATIC:FindByName(Fleet):IsAlive() then
             self:T(self.LogHeader .. "GenerateFleet function: Checking if the warehouse, " ..
-            Fleet .. ", belongs to the coalition " .. FleetCoalition)
+                Fleet .. ", belongs to the coalition " .. FleetCoalition)
             if STATIC:FindByName(Fleet):GetCoalition() == FleetCoalition then
                 local Fleet = FLEET:New(Fleet, Alias) --Ops.Fleet#FLEET
                 if PortZone then
@@ -248,7 +194,7 @@ function TotalWar:GenerateFleet(Fleet, Alias, PortZone, FleetCoalition, Pathfind
                 return Fleet
             else
                 self:T(self.LogHeader .. "GenerateFleet function: The warehouse, " ..
-                Fleet .. ", does not belong to the coalition " .. FleetCoalition)
+                    Fleet .. ", does not belong to the coalition " .. FleetCoalition)
 
                 return false
             end
@@ -259,7 +205,7 @@ function TotalWar:GenerateFleet(Fleet, Alias, PortZone, FleetCoalition, Pathfind
         end
     else
         self:E(self.LogHeader .. "GenerateFleet function: The warehouse, " ..
-        Fleet .. ", does not exist in the mission")
+            Fleet .. ", does not exist in the mission")
 
         return false
     end
