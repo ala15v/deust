@@ -39,7 +39,7 @@ function TotalWar:onafterAddBrigades(From, Event, To)
                     local template = MainPrefix .. " " .. asset.Template
                     local groups
                     if asset.Economy then
-                        groups = TotalWar:GetWarehouseAssetProduction(Brigade:GetVec2(), asset.Economy.Factory,
+                        groups = self:GetWarehouseAssetProduction(Brigade:GetVec2(), asset.Economy.Factory,
                             asset.Economy.Range, asset.Economy.Rate, Coalition)
                     else
                         groups = asset.Groups
@@ -50,7 +50,8 @@ function TotalWar:onafterAddBrigades(From, Event, To)
                     local capabilities = asset.Capability
 
                     if groups > 0 then
-                        local Platoon = self:GeneratePlatoon(template, groups, units, skill, Alias .. template, capabilities)
+                        local Platoon = self:GeneratePlatoon(template, groups, units, skill, Alias .. template,
+                        capabilities)
                         if Platoon then
                             Brigade:AddPlatoon(Platoon)
                         end
@@ -91,3 +92,5 @@ function TotalWar:onafterAddBrigades(From, Event, To)
         end
     end
 end
+
+deust.TotalWar.Brigades = true
