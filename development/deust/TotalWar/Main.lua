@@ -53,7 +53,7 @@ function TotalWar:New(Settings)
     self:AddTransition("Starting", "AddStrategicZones", "*")    -- Add Strategic Zones to the Chief.
     self:AddTransition("Starting", "AddBrigades", "*")          -- Add Brigades to the Chief.
     self:AddTransition("Starting", "AddAirwings", "*")          -- Add Airwings to the Chief.
-    self:AddTransition("Starting", "AddFlotillas", "*")         -- Add Flotillas to the Chief.
+    self:AddTransition("Starting", "AddFleets", "*")         -- Add Flotillas to the Chief.
 
     self:AddTransition("Starting", "Ready", "Running")          -- Everything is ready.
     -- !SECTION
@@ -69,9 +69,10 @@ function TotalWar:onleaveNotReadyYet(From, Event, To)
     local Zones = deust.TotalWar.Zones
     local Brigades = deust.TotalWar.Brigades
     local Airwings = deust.TotalWar.Airwings
+    local Fleets = deust.TotalWar.Fleets
 
     -- TODO: Add logs
-    return (Main and Methods and Zones and Brigades and Airwings) -- If FALSE it will stop the transition
+    return (Main and Methods and Zones and Brigades and Airwings and Fleets) -- If FALSE it will stop the transition
 end
 
 function TotalWar:onbeforeStart(From, Event, To)

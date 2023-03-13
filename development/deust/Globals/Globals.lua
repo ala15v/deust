@@ -70,4 +70,5 @@ deust.TotalWar.Methods = false
 deust.TotalWar.Zones = false
 deust.TotalWar.Brigades = false
 deust.TotalWar.Airwings = false
+deust.TotalWar.Fleets = false
 -- !SECTION
