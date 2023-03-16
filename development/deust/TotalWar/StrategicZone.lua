@@ -59,7 +59,7 @@ function StrategicZone:New(ZoneName, SpyAgent)
     if type(SpyAgent) == "string" then
         self.SpyAgent = SpyAgent
 
-        local zone = ZONE_RADIUS:New("scanspieszone", self:GetVec2(), 10000) --REVIEW
+        local zone = ZONE_RADIUS:New("scanspieszone", self:GetZone():GetVec2(), 10000) --REVIEW
 
         local spies = SET_GROUP:New()
         spies:FilterPrefixes(SpyAgent)
@@ -75,11 +75,11 @@ function StrategicZone:New(ZoneName, SpyAgent)
             end
         end
 
-        if SpyAgent > 0 then    -- TODO: Add some probability
+        if SpyCount > 0 then    -- TODO: Add some probability
             self:SetDrawZone(true)
         end
 
-        if SpyAgent > 1 then    -- TODO: Add some probability
+        if SpyCount > 1 then    -- TODO: Add some probability
             self:SetMarkZone(true)
         end
     end
