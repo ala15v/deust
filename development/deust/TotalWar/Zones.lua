@@ -1,9 +1,8 @@
 function TotalWar:onafterScanBorderZones(From, Event, To)
     local prefix = self.Settings.MainPrefix .. " BorderZone"
-    local BorderZones = self.Zones.BorderZones
 
-    BorderZones:FilterPrefixes(prefix)
-    BorderZones:FilterOnce()
+    self.Zones.BorderZones:FilterPrefixes(prefix)
+    self.Zones.BorderZones:FilterOnce()
 
     local PolygonBorderZones = SET_GROUP:New()
     PolygonBorderZones:FilterPrefixes(prefix)
@@ -11,16 +10,15 @@ function TotalWar:onafterScanBorderZones(From, Event, To)
 
     for _, zone in pairs(PolygonBorderZones:GetSet()) do
         local zone = ZONE_POLYGON:New(zone:GetName(), zone)
-        BorderZones:AddZone(zone)
+        self.Zones.BorderZones:AddZone(zone)
     end
 end
 
 function TotalWar:onafterScanConflictZones(From, Event, To)
     local prefix = self.Settings.MainPrefix .. " ConflictZone"
-    local ConflictZones = self.Zones.ConflictZones
 
-    ConflictZones:FilterPrefixes(prefix)
-    ConflictZones:FilterOnce()
+    self.Zones.ConflictZones:FilterPrefixes(prefix)
+    self.Zones.ConflictZones:FilterOnce()
 
     local PolygonConflictZones = SET_GROUP:New()
     PolygonConflictZones:FilterPrefixes(prefix)
@@ -28,16 +26,15 @@ function TotalWar:onafterScanConflictZones(From, Event, To)
 
     for _, zone in pairs(PolygonConflictZones:GetSet()) do
         local zone = ZONE_POLYGON:New(zone:GetName(), zone)
-        ConflictZones:AddZone(zone)
+        self.Zones.ConflictZones:AddZone(zone)
     end
 end
 
 function TotalWar:onafterScanAttackZones(From, Event, To)
     local prefix = self.Settings.MainPrefix .. " AttackZone"
-    local AttackZones = self.Zones.AttackZones
 
-    AttackZones:FilterPrefixes(prefix)
-    AttackZones:FilterOnce()
+    self.Zones.AttackZones:FilterPrefixes(prefix)
+    self.Zones.AttackZones:FilterOnce()
 
     local PolygonAttackZones = SET_GROUP:New()
     PolygonAttackZones:FilterPrefixes(prefix)
@@ -45,22 +42,18 @@ function TotalWar:onafterScanAttackZones(From, Event, To)
 
     for _, zone in pairs(PolygonAttackZones:GetSet()) do
         local zone = ZONE_POLYGON:New(zone:GetName(), zone)
-        AttackZones:AddZone(zone)
+        self.Zones.AttackZones:AddZone(zone)
     end
 end
 
 function onafterScanSpZones(From, Event, To)
-    local DBspZone = self.Zones.SpZones
-
-    DBspZone:FilterPrefixes("spzone")
-    DBspZone:FilterOnce()
+    self.Zones.SpZones:FilterPrefixes("spzone")
+    self.Zones.SpZones:FilterOnce()
 end
 
 function onafterScanPortZones(From, Event, To)
-    local DBportZone = self.Zones.PortZones
-
-    DBportZone:FilterPrefixes("portzone")
-    DBportZone:FilterOnce()
+    self.Zones.PortZones:FilterPrefixes("portzone")
+    self.Zones.PortZones:FilterOnce()
 end
 
 function TotalWar:onafterAddCapZones(From, Event, To)
