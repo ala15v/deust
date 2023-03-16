@@ -71,4 +71,5 @@ deust.TotalWar.Zones = false
 deust.TotalWar.Brigades = false
 deust.TotalWar.Airwings = false
 deust.TotalWar.Fleets = false
+deust.TotalWar.RandomReaction = false
 -- !SECTION
