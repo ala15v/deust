@@ -32,20 +32,58 @@ This is a function that scans the map searching for trigger zones with the prefi
 >
 >> Input: `StrategicZone.ScanMap()`
 
-]]--
+]]
+--
 
 -- ANCHOR: Class declaration
 StrategicZone = {
     IsStrategicZone = false,
     IsSamSite = false,
     IsCheckPoint = false,
-    IsSeaZone = false
+    IsSeaZone = false,
+    SpyAgent = nil
 }
 
 -- ANCHOR: Constructor
-function StrategicZone:New(ZoneName)
+function StrategicZone:New(ZoneName, SpyAgent)
+    local ZoneName = ZoneName
+    local SpyAgent = SpyAgent
+
     -- Inherit everthing from OPSZONE class.
     local self = BASE:Inherit(self, OPSZONE:New(ZoneName)) -- #OPSZONE
+
+    self:SetDrawZone(false)
+    self:SetMarkZone(false)
+
+    -- KNOWNISSUE: Is not coalition dependent
+    if type(SpyAgent) == "string" then
+        self.SpyAgent = SpyAgent
+
+        local zone = ZONE_RADIUS:New("scanspieszone", self:GetVec2(), 10000) --REVIEW
+
+        local spies = SET_GROUP:New()
+        spies:FilterPrefixes(SpyAgent)
+        spies:FilterZones({ zone })
+        spies:FilterOnce()
+
+        local SpyCount = 0
+
+        for _, spy in pairs(spies:GetSet()) do
+            if spy:IsAlive() then
+                -- TODO: Caught probability
+                SpyCount = SpyCount + 1
+            end
+        end
+
+        if SpyAgent > 0 then    -- TODO: Add some probability
+            self:SetDrawZone(true)
+        end
+
+        if SpyAgent > 1 then    -- TODO: Add some probability
+            self:SetMarkZone(true)
+        end
+    end
+    -- !KNOWNISSUE
 
     -- Detect the type of zone
     if string.find(ZoneName, "StrategicZone") then
@@ -61,20 +99,20 @@ function StrategicZone:New(ZoneName)
         self.IsSeaZone = true
     end
 
-    table.insert(deust.TotalWar.StrategicZones, self)   -- inserting new StrategicZone in the DB
+    table.insert(deust.TotalWar.StrategicZones, self) -- inserting new StrategicZone in the DB
     return self
 end
 
-function StrategicZone:ScanMap()
+function StrategicZone:ScanMap(SpyAgent)
     -- Scanning map
     local DBstrategicZones
     DBstrategicZones = SET_ZONE:New()
-    DBstrategicZones:FilterPrefixes({"StrategicZone", "SamSite", "CheckPoint", "SeaZone"})
+    DBstrategicZones:FilterPrefixes({ "StrategicZone", "SamSite", "CheckPoint", "SeaZone" })
     DBstrategicZones:FilterOnce()
 
     -- Creating new Strategic Zones
     for _, zone in pairs(DBstrategicZones:GetSet()) do
         local zone = zone
-        StrategicZone:New(zone:GetName())
+        StrategicZone:New(zone:GetName(), SpyAgent)
     end
 end
