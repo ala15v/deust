@@ -1,6 +1,5 @@
 function TotalWar:onafterAddFleets(From, Event, To)
     local Settings = self.Settings
-    local Chief = self.Chief
     local BorderZones = self.Zones.BorderZones
     local DBportZone = self.Zones.PortZones
     local Coalition = Settings.TeamCoalition
@@ -61,7 +60,7 @@ function TotalWar:onafterAddFleets(From, Event, To)
                     end
                 end
 
-                Chief:AddFleet(Fleet)
+                self.Chief:AddFleet(Fleet)
             end
         end
     end

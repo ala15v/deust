@@ -1,6 +1,5 @@
 function TotalWar:onafterAddAirwings(From, Event, To)
     local Settings = self.Settings
-    local Chief = self.Chief
     local BorderZones = self.Zones.BorderZones
     local Coalition = Settings.TeamCoalition
     local MainPrefix = Settings.MainPrefix
@@ -64,7 +63,7 @@ function TotalWar:onafterAddAirwings(From, Event, To)
                     end
                 end
 
-                Chief:AddAirwing(Airwing)
+                self.Chief:AddAirwing(Airwing)
             end
         end
     end

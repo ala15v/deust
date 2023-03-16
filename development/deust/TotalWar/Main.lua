@@ -107,7 +107,7 @@ end
 function TotalWar:onafterStart(From, Event, To)
     self:AddBrigades()
     self:AddAirwings()
-    self:AddFlotillas()
+    self:AddFleets()
     self:AddStrategicZones()
     self:AddCapZones()
     self:AddAwacsZones()

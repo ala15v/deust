@@ -115,7 +115,6 @@ function TotalWar:onafterAddTankerZones(From, Event, To)
 end
 
 function TotalWar:onafterAddStrategicZones(From, Event, To)
-    local Chief = self.Chief
     local BorderZones = self.Zones.BorderZones
     local ConflictZones = self.Zones.ConflictZones
     local AttackZones = self.Zones.AttackZones
@@ -151,16 +150,16 @@ function TotalWar:onafterAddStrategicZones(From, Event, To)
 
         if zone.IsStrategicZone then
             local ResourceListEmpty, ResourceListOccupied = self:GenerateRandomReaction("StrategicZone")
-            Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
+            self.Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
         elseif zone.IsSamSite then
             local ResourceListEmpty, ResourceListOccupied = self:GenerateRandomReaction("SamSite")
-            Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
+            self.Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
         elseif zone.IsCheckPoint then
             local ResourceListEmpty, ResourceListOccupied = self:GenerateRandomReaction("CheckPoint")
-            Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
+            self.Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
         elseif zone.IsSeaZone then
             local ResourceListEmpty, ResourceListOccupied = self:GenerateRandomReaction("SeaZone")
-            Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
+            self.Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
         end
     end
 end

@@ -1,6 +1,5 @@
 function TotalWar:onafterAddBrigades(From, Event, To)
     local Settings = self.Settings
-    local Chief = self.Chief
     local BorderZones = self.Zones.BorderZones
     local DBspZone = self.Zones.SpZones
     local Coalition = Settings.TeamCoalition
@@ -58,7 +57,7 @@ function TotalWar:onafterAddBrigades(From, Event, To)
                     end
                 end
 
-                Chief:AddBrigade(Brigade)
+                self.Chief:AddBrigade(Brigade)
                 --[[
                 -- SECTION: OnAfterAssetDead event
                 function Brigade:OnAfterAssetDead(From, Event, To, asset, request)
