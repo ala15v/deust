@@ -117,7 +117,7 @@ function TotalWar:onafterAddStrategicZones(From, Event, To)
     DBopsZones:FilterOnce()
 
     for _, zone in pairs(deust.TotalWar.StrategicZones) do
-        local zoneName = zone:GetName()
+        local zoneName = zone.StrategicZone:GetName()
         local splitName = {}
         for str in string.gmatch(zoneName, "%S+") do
             table.insert(splitName, str)
@@ -126,7 +126,7 @@ function TotalWar:onafterAddStrategicZones(From, Event, To)
         local importance = tonumber(splitName[3])
 
         for _, border in pairs(ConflictZones:GetSet()) do
-            if border:IsCoordinateInZone(zone:GetCoordinate()) then
+            if border:IsCoordinateInZone(zone.StrategicZone:GetCoordinate()) then
                 priotity = priotity - 30
                 importance = importance + 3
                 break
@@ -134,7 +134,7 @@ function TotalWar:onafterAddStrategicZones(From, Event, To)
         end
 
         for _, border in pairs(AttackZones:GetSet()) do
-            if border:IsCoordinateInZone(zone:GetCoordinate()) then
+            if border:IsCoordinateInZone(zone.StrategicZone:GetCoordinate()) then
                 priotity = priotity - 60
                 importance = importance + 6
                 break
@@ -143,16 +143,16 @@ function TotalWar:onafterAddStrategicZones(From, Event, To)
 
         if zone.IsStrategicZone then
             local ResourceListEmpty, ResourceListOccupied = self:GenerateRandomReaction("StrategicZone")
-            self.Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
+            self.Chief:AddStrategicZone(zone.StrategicZone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
         elseif zone.IsSamSite then
             local ResourceListEmpty, ResourceListOccupied = self:GenerateRandomReaction("SamSite")
-            self.Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
+            self.Chief:AddStrategicZone(zone.StrategicZone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
         elseif zone.IsCheckPoint then
             local ResourceListEmpty, ResourceListOccupied = self:GenerateRandomReaction("CheckPoint")
-            self.Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
+            self.Chief:AddStrategicZone(zone.StrategicZone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
         elseif zone.IsSeaZone then
             local ResourceListEmpty, ResourceListOccupied = self:GenerateRandomReaction("SeaZone")
-            self.Chief:AddStrategicZone(zone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
+            self.Chief:AddStrategicZone(zone.StrategicZone, priotity, importance, ResourceListOccupied, ResourceListEmpty)
         end
     end
 end
