@@ -37,7 +37,13 @@ function TotalWar:onafterAddFleets(From, Event, To)
 
                 for _, asset in pairs(fleetAssets) do
                     local template = MainPrefix .. " " .. asset.Template
-                    local groups = asset.Groups
+                    local groups
+                    if asset.Economy then
+                        groups = self:GetWarehouseAssetProduction(Fleet:GetVec2(), asset.Economy.Factory,
+                            asset.Economy.Range, asset.Economy.Rate, Coalition)
+                    else
+                        groups = asset.Groups
+                    end
                     local units = asset.Units
                     local skill --REVIEW
                     --local type = asset.Type
