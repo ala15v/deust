@@ -116,4 +116,8 @@ function TotalWar:onafterStart(From, Event, To)
     self:Ready()
 end
 
+function TotalWar:onafterReady(From, Event, To)
+    self.Chief:Start()
+end
+
 deust.TotalWar.Main = true
