@@ -41,6 +41,7 @@ StrategicZone = {
     IsSamSite = false,
     IsCheckPoint = false,
     IsSeaZone = false,
+    StZone = nil,
     SpyAgent = nil
 }
 
@@ -49,17 +50,15 @@ function StrategicZone:New(ZoneName, SpyAgent)
     local ZoneName = ZoneName
     local SpyAgent = SpyAgent
 
-    -- Inherit everthing from OPSZONE class.
-    local self = BASE:Inherit(self, OPSZONE:New(ZoneName)) -- #OPSZONE
+    self.StZone = OPSZONE:New(ZoneName)
 
-    self:SetDrawZone(false)
-    self:SetMarkZone(false)
+    self.StZone:SetObjectCategories(Object.Category.UNIT)
 
     -- KNOWNISSUE: Is not coalition dependent
     if type(SpyAgent) == "string" then
         self.SpyAgent = SpyAgent
 
-        local zone = ZONE_RADIUS:New("scanspieszone", self:GetZone():GetVec2(), 10000) --REVIEW
+        local zone = ZONE_RADIUS:New("scanspieszone", self.StZone:GetZone():GetVec2(), 10000) --REVIEW
 
         local spies = SET_GROUP:New()
         spies:FilterPrefixes(SpyAgent)
@@ -75,12 +74,12 @@ function StrategicZone:New(ZoneName, SpyAgent)
             end
         end
 
-        if SpyCount > 0 then    -- TODO: Add some probability
-            self:SetDrawZone(true)
+        if SpyCount < 1 then    -- TODO: Add some probability
+            self.StZone:SetDrawZone(false)
         end
 
-        if SpyCount > 1 then    -- TODO: Add some probability
-            self:SetMarkZone(true)
+        if SpyCount < 2 then    -- TODO: Add some probability
+            self.StZone:SetMarkZone(false)
         end
     end
     -- !KNOWNISSUE
@@ -99,11 +98,14 @@ function StrategicZone:New(ZoneName, SpyAgent)
         self.IsSeaZone = true
     end
 
+    self.StZone:Start()
     table.insert(deust.TotalWar.StrategicZones, self) -- inserting new StrategicZone in the DB
     return self
 end
 
 function StrategicZone:ScanMap(SpyAgent)
+    local SpyAgent = SpyAgent
+
     -- Scanning map
     local DBstrategicZones
     DBstrategicZones = SET_ZONE:New()
