@@ -25,7 +25,9 @@ deust.fatcow.FatCowEscortOrbitOnLZ = function(Coord)
 end
 
 deust.fatcow.DestroyFatCowEscort = function()
-    deust.fatcow.EscortGroup:Destroy(false)
-    deust.fatcow.EscortGroup = nil
+    if deust.fatcow.EscortGroup then
+        deust.fatcow.EscortGroup:Destroy(false)
+        deust.fatcow.EscortGroup = nil
+    end
 end
 

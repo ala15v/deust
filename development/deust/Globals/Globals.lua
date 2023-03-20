@@ -57,6 +57,7 @@ deust.fatcow.SpawnFuel = ( STATIC:FindByName("templateFOBFuel", false) and SPAWN
 deust.fatcow.SpawnAmmo = ( STATIC:FindByName("templateFOBAmmo", false) and SPAWNSTATIC:NewFromStatic("templateFOBAmmo", country.id.USA) or nil )
 deust.fatcow.SpawnTent = ( STATIC:FindByName("templateFOBTent", false) and SPAWNSTATIC:NewFromStatic("templateFOBTent", country.id.USA) or nil )
 deust.fatcow.SpawnSoldier = ( STATIC:FindByName("templateFOBSoldier", false) and SPAWNSTATIC:NewFromStatic("templateFOBSoldier", country.id.USA) or nil )
+deust.fatcow.SpawnRepair = 'templateFOBRepairGP'
 
 -- SECTION: Utils
 deust.utils = {}

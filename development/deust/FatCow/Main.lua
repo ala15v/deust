@@ -253,6 +253,14 @@ deust.buildFobFatcow = function (StaticFOB, StaticFuel, StaticAmmo, StaticTent, 
     AmmoPosition:AddY(25)
     table.insert(deust.fatcow.farp_statics, StaticAmmo:SpawnFromPointVec2( AmmoPosition, 0 ))
 
+    -- M939 to repair and groundpower
+    if GROUP:FindByName(deust.fatcow.SpawnRepair) then
+        local RepairPosition = POINT_VEC2:NewFromVec2(GroupZone:GetVec2())
+        RepairPosition:AddX(20)
+        RepairPosition:AddY(25)
+        table.insert(deust.fatcow.farp_statics, SPAWN:New(deust.fatcow.SpawnRepair):SpawnFromPointVec2(RepairPosition))
+    end
+
     -- soldiers
     local soldierPosition = POINT_VEC2:NewFromVec2(GroupZone:GetVec2())
     soldierPosition:AddX(-20)
