@@ -25,6 +25,7 @@ deust.G2GDispatcher.ChasingGroups = {}
 deust.G2GDispatcher.GroundSpotterPrefix = 'GSpotter'
 deust.G2GDispatcher.GroundChasingGroupPrefix = 'GChaser'
 deust.G2GDispatcher.GroundAutocargoChasingCarrierPrefix = 'G2GCargoChaser'
+deust.G2GDispatcher.SuicideBombPrefix = 'SuicideBomb'
 deust.G2GDispatcher.DetectionRange = 5000
 deust.G2GDispatcher.FriendliesRange = 5000
 deust.G2GDispatcher.DetectionRefresh = 30
