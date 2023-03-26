@@ -50,6 +50,9 @@ function StrategicZone:New(ZoneName, SpyAgent)
     local ZoneName = ZoneName
     local SpyAgent = SpyAgent
 
+    -- Inherit itself
+    local self = UTILS.DeepCopy(self)
+
     self.StZone = OPSZONE:New(ZoneName)
 
     self.StZone:SetObjectCategories(Object.Category.UNIT)
