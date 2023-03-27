@@ -25,6 +25,10 @@ function TotalWar:GenerateRandomReaction(ZoneType)
             -- We also add ARTY missions with at least one and at most two assets. We additionally require these to be MLRS groups (and not howitzers).
             self.Chief:AddToResource(ResourceListOccupied, AUFTRAG.Type.ARTY, 0, 2)
         end
+        if UTILS.Randomize(100, 1, 0, 100) > 60 then
+            -- We also add BOMBCARPET... Run!
+            self.Chief:AddToResource(ResourceListOccupied, AUFTRAG.Type.BOMBCARPET, 0, 2)
+        end
         -- Add at least one RECON mission that uses UAV type assets.
         self.Chief:AddToResource(ResourceListOccupied, AUFTRAG.Type.RECON, 0, 1, GROUP.Attribute.AIR_UAV)
         if UTILS.Randomize(100, 1, 0, 100) > 70 then
