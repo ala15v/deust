@@ -210,6 +210,14 @@ It adds to the transaction queue a new transaction.
 
 
 -- ANCHOR: Class declaration
+SavePath = nil
+local isLoaded = false
+if lfs then
+    -- TODO: create directory if not exist
+    SavePath = lfs.writedir() .. "Economy" -- C:\Users\<user>\Saved Games\DCS.openbeta\Economy -- NOTE: Path must exist
+    isLoaded = true
+end
+
 Economy = {
     ClassName = "Economy",
     uid = nil,
@@ -218,7 +226,7 @@ Economy = {
     PreAuthorized = 0,
     TransactionsQueue = {},
     TransactionsDelay = 30,
-    SavePath = lfs.writedir() .. "Economy", -- C:\Users\<user>\Saved Games\DCS.openbeta\Economy -- NOTE: Path must exist
+    SavePath = SavePath,
     SaveFile = nil,
     AutoSave = nil,
     LogHeader = ""
@@ -332,4 +340,4 @@ function Economy:onafterCheckTransactions(From, Event, To)
     self:__CheckTransactions(self.TransactionsDelay)
 end
 
-deust.Economy.Main = true
+deust.Economy.Main = isLoaded
