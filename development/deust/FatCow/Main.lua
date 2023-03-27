@@ -178,7 +178,14 @@ function lz:OnAfterMarkChanged(From,Event,To,Text,Keywords,Coord)
         _deustlog_info('Moving Chinook')
         return
     end
-    deust.fatcow.group = SPAWN:New( deust.fatcow.groupName ):InitKeepUnitNames():InitAIOff():Spawn()
+    if deust.fatcow.vec3 then
+        -- deust.fatcow.vec3 = ZONE:New( 'GG20' ):GetPointVec3( 100 )
+        deust.fatcow.group = SPAWN:New( deust.fatcow.groupName ):SpawnFromPointVec3( deust.fatcow.vec3 )
+        env.info('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    else
+        deust.fatcow.group = SPAWN:New( deust.fatcow.groupName ):InitKeepUnitNames():InitAIOff():Spawn()
+    end
+    
     deust.fatcow.FatCowEscort()
     deust.fatcow.group:OptionROTPassiveDefense()
     deust.fatcow.rtb = deust.fatcow.group:GetVec2()
