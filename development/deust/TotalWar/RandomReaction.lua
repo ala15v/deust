@@ -3,7 +3,7 @@ function TotalWar:GenerateRandomReaction(ZoneType)
     local ResourceListEmpty, ResourceEmpty, ResourceEmptyInf
     local ResourceListOccupied, ResourceOccupied, ResourceOccupiedInf
 
-    if ZoneType == "StrategicZone" then
+    if ZoneType == "StZone" then
         ResourceListEmpty, ResourceEmptyInf = self.Chief:CreateResource(AUFTRAG.Type.ONGUARD, 1, 2,
             GROUP.Attribute.GROUND_INFANTRY)
         self.Chief:AddToResource(ResourceListEmpty, AUFTRAG.Type.PATROLZONE, 1, 2,
