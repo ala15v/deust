@@ -80,3 +80,8 @@ deust.Economy.Transactions = false
 deust.TotalWar = {}
 deust.TotalWar.StrategicZones = {}
 -- !SECTION
+
+-- SECTION: Network
+deust.network = {}
+deust.network.udp = {}
+-- !SECTION
