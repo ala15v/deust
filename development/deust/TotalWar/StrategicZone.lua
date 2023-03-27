@@ -13,6 +13,7 @@ It initiate a new instance of the class StrategicZone
 > |           Name             |       Type        |                                     Description                                         |
 > |:--------------------------:|:-----------------:|:----------------------------------------------------------------------------------------|
 > |         ZoneName           |       String      | This is the name of a trigger zone in the mission editor                                |
+> |         SpyAgent           |       String      | This is the prefix of the units that will act as spies                                  |
 
 > ### **Return**
 >
@@ -31,6 +32,10 @@ This is a function that scans the map searching for trigger zones with the prefi
 > ### **Example**
 >
 >> Input: `StrategicZone.ScanMap()`
+>
+> Using spy units
+>
+>> Input: `StrategicZone.ScanMap("SpyPrefix")`
 
 ]]
 --
