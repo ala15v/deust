@@ -46,12 +46,12 @@ function TotalWar:onafterScanAttackZones(From, Event, To)
     end
 end
 
-function onafterScanSpZones(From, Event, To)
+function TotalWar:onafterScanSpZones(From, Event, To)
     self.Zones.SpZones:FilterPrefixes("spzone")
     self.Zones.SpZones:FilterOnce()
 end
 
-function onafterScanPortZones(From, Event, To)
+function TotalWar:onafterScanPortZones(From, Event, To)
     self.Zones.PortZones:FilterPrefixes("portzone")
     self.Zones.PortZones:FilterOnce()
 end
