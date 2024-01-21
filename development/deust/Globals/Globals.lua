@@ -51,13 +51,6 @@ deust.fatcow.EscortGroupName = 'FatcowEscortGroup'
 deust.fatcow.EscortGroup = nil
 deust.fatcow.farp_statics = {}
 deust.fatcow.dead = false
--- TODO: temporal antes que se creen las unidades desde cero. Así evitamos que rompa
-deust.fatcow.SpawnFOB = ( STATIC:FindByName("templateFOB", false) and SPAWNSTATIC:NewFromStatic( "templateFOB", country.id.USA ) or nil )
-deust.fatcow.SpawnFuel = ( STATIC:FindByName("templateFOBFuel", false) and SPAWNSTATIC:NewFromStatic("templateFOBFuel", country.id.USA) or nil )
-deust.fatcow.SpawnAmmo = ( STATIC:FindByName("templateFOBAmmo", false) and SPAWNSTATIC:NewFromStatic("templateFOBAmmo", country.id.USA) or nil )
-deust.fatcow.SpawnTent = ( STATIC:FindByName("templateFOBTent", false) and SPAWNSTATIC:NewFromStatic("templateFOBTent", country.id.USA) or nil )
-deust.fatcow.SpawnSoldier = ( STATIC:FindByName("templateFOBSoldier", false) and SPAWNSTATIC:NewFromStatic("templateFOBSoldier", country.id.USA) or nil )
-deust.fatcow.SpawnRepair = 'templateFOBRepairGP'
 
 -- SECTION: Utils
 deust.utils = {}

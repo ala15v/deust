@@ -1,12 +1,12 @@
 deust.fatcow.FatCowEscort = function()
     -- TargetTypes: https://wiki.hoggitworld.com/view/DCS_enum_attributes
-    local threats = {"Ground vehicles", "Helicopters"}
+    local threats = {"Ground vehicles", "Helicopters", "Armed ground units", "Infantry"}
     if GROUP:FindByName(deust.fatcow.EscortGroupName) then
         if not deust.fatcow.EscortGroup then
             deust.fatcow.EscortGroup = SPAWN:New( deust.fatcow.EscortGroupName ):InitKeepUnitNames():InitAIOff():Spawn()
             _deustlog_info('Fat Cow Escort Spawned')
         end
-        local task = deust.fatcow.EscortGroup:TaskEscort(deust.fatcow.group, POINT_VEC3:New( -50, 0 , 100 ), nil, UTILS.NMToMeters(10), threats)
+        local task = deust.fatcow.EscortGroup:TaskEscort(deust.fatcow.group, POINT_VEC3:New( -50, 0 , 100 ), nil, UTILS.NMToMeters(4), threats)
         deust.fatcow.EscortGroup:SetTask( task, 3 )
         _deustlog_info('Fat Cow Escort Task Started')
     else
