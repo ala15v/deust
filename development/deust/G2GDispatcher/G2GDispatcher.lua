@@ -9,7 +9,7 @@
 -- ref: https://flightcontrol-master.github.io/MOOSE_DOCS/Documentation/Wrapper.Unit.html##(UNIT).GetThreatLevel
 _deustlog_info('[MODULE] G2GDispatcher loading')
 
-local _DEBUG = false
+local _DEBUG = _deustdebug
 
 -- Detection Set
 -- El grupo debe tener la tarea de FAC
@@ -58,7 +58,7 @@ end
 -- Propiedas de DetectedItem
 -- https://flightcontrol-master.github.io/MOOSE_DOCS/Documentation/Functional.Detection.html##(DETECTION_BASE.DetectedItem)
 function G2GDetection:OnAfterDetectedItem(From, Event, To, DetectedItem)
-    local limit_chasing = 3
+    local limit_chasing = 10
     local counter_chasing = 0
 
     self:CalculateIntercept(DetectedItem)
@@ -79,7 +79,7 @@ function G2GDetection:OnAfterDetectedItem(From, Event, To, DetectedItem)
                 local isAutoCargoChaseGroup = deust.G2GDispatcher.AutocargoChasePursuitGroups:FindGroup(groupName)
 
                 if isChaseGroup then
-                    local route, reliable = group:TaskGroundOnRoad(intercept:GetCoordinate(), deust.G2GDispatcher.InterceptSpeed, 'On Road', true, nil)
+                    local route, reliable = group:TaskGroundOnRoad(intercept:GetCoordinate(), deust.G2GDispatcher.InterceptSpeed, 'Off Road', true, nil)
                     local waypoint = intercept:GetCoordinate():WaypointGround()
                     waypoint.task = route[#route].task
                     route[#route+1]=waypoint
@@ -91,7 +91,7 @@ function G2GDetection:OnAfterDetectedItem(From, Event, To, DetectedItem)
                         return
                     end
                 elseif isAutoCargoChaseGroup then
-                    local route, reliable = group:TaskGroundOnRoad(intercept:GetCoordinate(), deust.G2GDispatcher.InterceptSpeed, 'On Road', true, nil)
+                    local route, reliable = group:TaskGroundOnRoad(intercept:GetCoordinate(), deust.G2GDispatcher.InterceptSpeed, 'Off Road', true, nil)
                     group:Route(route, 2)
                     group:OptionROEWeaponFree()
                     group:OptionAlarmStateRed()
