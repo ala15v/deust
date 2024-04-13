@@ -55,4 +55,19 @@ deust.utils.loadTable = function (filename)
     end
 end
 
+deust.utils.dumpTable = function (t)
+    if type(t) == 'table' then
+        local s = '{ '
+        for k, v in pairs(t) do
+            if type(k) ~= 'number' then
+                k = '"' .. k .. '"'
+            end
+            s = s .. '[' .. k .. '] = ' .. dumpt(v) .. ','
+        end
+        return s .. '} '
+    else
+        return tostring(t)
+    end
+end
+
 _deustlog_info('[MODULE] Utils Serialize loaded')
