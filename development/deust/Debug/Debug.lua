@@ -2,11 +2,12 @@ _deustdebug = false
 
 if _deustdebug then
     BASE:TraceOn()
+    env.info('ALA15V DEUST DEBUG: DEBUG ENABLED')
 end
 
 
 function _deustlog(level, message)
-    local prefix = string.format('[DEUST %s LOG]: ', string.upper(level))
+    local prefix = string.format('ALA15V DEUST %s: ', string.upper(level))
     local fullmessage = string.format( '%s%s', prefix, message)
     if (level == 'info')
     then
@@ -17,16 +18,20 @@ function _deustlog(level, message)
 end
 
 function _deustlog_info(message)
-    _deustlog('info', message)
+    _deustlog('INFO', message)
 end
 
 function _deustlog_warn(message)
-    _deustlog('warn', message)
+    _deustlog('WARN', message)
+end
+
+function _deustlog_error(message)
+    _deustlog('ERROR', message)
 end
 
 function _deustlog_debug(message)
     if _deustdebug then
-        _deustlog( 'debug', message )
+        _deustlog( 'DEBUG', message )
     end
 end
 
