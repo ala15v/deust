@@ -69,12 +69,16 @@ function RedDetection:OnAfterDetectedItem(From, Event, To, DetectedItem)
                 local isAutoCargoChaseGroup = deust.G2ADispatcher.AutocargoChasePursuitGroups:FindGroup(groupName)
                 if isChaseGroup then
                     group:RouteToVec3(intercept:GetVec3(), 120 / 3.6)
+                    group:OptionROEWeaponFree()
+                    group:OptionAlarmStateRed()
                     counter_chasing = counter_chasing + 1
                     if counter_chasing == limit_chasing then
                         return
                     end
                 elseif isAutoCargoChaseGroup then
                     group:RouteToVec3(intercept:GetVec3(), 120 / 3.6)
+                    group:OptionROEWeaponFree()
+                    group:OptionAlarmStateRed()
                     counter_chasing = counter_chasing + 1
                     if counter_chasing == limit_chasing then
                         return
