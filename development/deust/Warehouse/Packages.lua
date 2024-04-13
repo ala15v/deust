@@ -1,0 +1,11 @@
+deust.warehouse.packages = {}
+
+deust.warehouse.packages.setAGMissiles_Guided1 = {"weapons.missiles.AGM_65D", "weapons.missiles.AGM_65H" }
+deust.warehouse.packages.setAGMissiles_Guided2 = {"weapons.missiles.AGM_65L"}
+deust.warehouse.packages.setAGBombsDumb = {"weapons.bombs.Mk_82", "weapons.bombs.MK_82AIR", "weapons.bombs.MK_82SNAKEYE"}
+deust.warehouse.packages.setAGBombLaser = {"weapons.bombs.GBU_12"}
+deust.warehouse.packages.setAGBombGPS = {"weapons.bombs.GBU_38", "weapons.bombs.GBU_54_V_1B"}
+deust.warehouse.packages.setAGBombsCluster = {"weapons.bombs.CBU_87", "weapons.bombs.CBU_97"}
+deust.warehouse.packages.setAGRockets = {"weapons.nurs.HYDRA_70_M151_M433", "weapons.nurs.HYDRA_70_M151", "weapons.nurs.HYDRA_70_M151_M433", "weapons.nurs.HYDRA_70_M151", "weapons.nurs.HYDRA_70_M156", "weapons.nurs.HYDRA_70_M229", "weapons.nurs.HYDRA_70_M257", "weapons.nurs.HYDRA_70_M259", "weapons.nurs.HYDRA_70_M274", "weapons.nurs.HYDRA_70_M282", "weapons.nurs.HYDRA_70_MK1", "weapons.nurs.HYDRA_70_MK5", "weapons.nurs.HYDRA_70_MK61", "weapons.nurs.HYDRA_70_WTU1B"}
+deust.warehouse.packages.setAGSenors = {"weapons.containers.AAQ-28_LITENING"}
+deust.warehouse.packages.setHelicoptersBaseline = {"weapons.containers.ah-64d_radar", "weapons.missiles.AGM_114K", "weapons.missiles.AGM_114", "weapons.missiles.Ataka_9M120", "weapons.missiles.Ataka_9M120F", "weapons.missiles.Ataka_9M220", "weapons.missiles.Igla_1E", "weapons.missiles.P_60", "weapons.missiles.R-60", "weapons.nurs.C_13","weapons.nurs.C_24","weapons.nurs.C_25","weapons.nurs.C_5","weapons.nurs.C_8","weapons.nurs.C_8CM_BU","weapons.nurs.C_8CM_GN","weapons.nurs.C_8CM_RD","weapons.nurs.C_8CM_VT","weapons.nurs.C_8CM_WH","weapons.nurs.C_8CM_YE","weapons.nurs.C_8CM","weapons.nurs.C_8OFP2","weapons.nurs.C_8OM","weapons.nurs.FFARM156WP","weapons.nurs.FFARMk1HE","weapons.nurs.FFARMk5HEAT","weapons.nurs.HVAR","weapons.nurs.HYDRA_70_M151_M433","weapons.nurs.HYDRA_70_M151","weapons.nurs.HYDRA_70_M156","weapons.nurs.HYDRA_70_M229","weapons.nurs.HYDRA_70_M257","weapons.nurs.HYDRA_70_M259","weapons.nurs.HYDRA_70_M274","weapons.nurs.HYDRA_70_M282","weapons.nurs.HYDRA_70_MK1","weapons.nurs.HYDRA_70_MK5","weapons.nurs.HYDRA_70_MK61","weapons.nurs.HYDRA_70_WTU1B","weapons.nurs.M8rocket","weapons.nurs.R4M","weapons.nurs.RS-82","weapons.nurs.S-24A","weapons.nurs.S-24B","weapons.nurs.S-25-O","weapons.nurs.S-5M"}

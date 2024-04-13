@@ -89,3 +89,8 @@ deust.persistence = {}
 deust.persistence.enabled = false
 deust.persistence.saveFrequency = 60
 deust.persistence.updateFrequency = 10
+
+deust.warehouse = {}
+deust.warehouse.enabled = false
+deust.warehouse.saveFrequency = 60
+deust.warehouse.updateFrequency = 10

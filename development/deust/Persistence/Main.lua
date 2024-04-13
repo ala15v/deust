@@ -8,9 +8,17 @@ do
         deust.persistence.dummy = {}
         function deust.persistence:new(savepath, updateFrequency, saveFrequency)
             local obj = {}
+            if lfs then 
+                local dir = lfs.writedir()..'Missions/Saves/'
+                lfs.mkdir(dir)
+            else
+                _deustlog_error('[PERSISTENCE] lfs not available')
+                return
+            end
+            obj.baseDir = lfs.writedir()..'Missions/Saves/'
             obj.saveFile = 'deust.persistence.lua'
             if savepath then
-                obj.saveFile = savepath
+                obj.saveFile = obj.baseDir .. savepath
             end
 
             if not updateFrequency then updateFrequency = deust.persistence.updateFrequency end
@@ -27,6 +35,8 @@ do
         end
 
         function deust.persistence:init()
+            -- load data
+            self:loadFromDisk()
             timer.scheduleFunction(function(arg, time)
                 self:log('Saving now on ' .. self.saveFile, true)
                 self.saveToDisk(self)
@@ -45,18 +55,26 @@ do
             deust.utils.loadTable(self.saveFile)
             if deustPersistenceData then
                 self:log('Loaded :)', true)
+                self:setWarehouses(deustPersistenceData.warehouses)
                 return deustPersistenceData
             end
         end
 
         function deust.persistence:getData()
             local states = {}
-            local success, groups = pcall(self.getGroups, self)
-            if success then
-                states = {groups=groups}
+            -- local successGroups, groups = pcall(self.getGroups, self)
+            -- if successGroups then
+            --     states.groups = groups
+            -- else
+            --     _deustlog_error('deust.persistence:getData() on groups')
+            -- end
+            local successWarehouses, warehouses = pcall(self.getWarehouses, self)
+            if successWarehouses then
+                states.warehouses = warehouses
             else
-                _deustlog_error('deust.persistence:getData() on groups')
+                _deustlog_error('deust.persistence:getData() on warehouses')
             end
+
             return states
         end
 
@@ -111,23 +129,68 @@ do
             return groups
         end
 
+        function deust.persistence:getWarehouses()
+            local warehousesState = {}
+
+            SET_AIRBASE:New():FilterStart():ForEachAirbase(function(airbase)
+                local airbaseName = airbase:GetName()
+                local storage = airbase:GetStorage()
+                if storage:IsLimitedAircraft() or storage:IsLimitedLiquids() or storage:IsLimitedWeapons() then
+                    local aircraft, liquids, weapons=storage:GetInventory()
+                    warehousesState[airbaseName] = {aircraft=aircraft, liquids=liquids, weapons=weapons}
+                end
+                
+            end)
+
+            return warehousesState
+        end
+
+        function deust.persistence:setWarehouses(warehousesState)
+            if not warehousesState then
+                _deustlog_info('none warehouses to set')
+                return
+            end
+            for index, warehouse in pairs(warehousesState) do
+                local storage = STORAGE:FindByName(index)
+                
+                -- clear current storage
+                local aircraft, liquids, weapons=storage:GetInventory()
+                for index, amount in pairs(aircraft) do
+                    storage:SetItem(index, 0)
+                end
+                for index, amount in pairs(liquids) do
+                    storage:SetLiquid(index, 0)
+                end
+                for index, amount in pairs(weapons) do
+                    storage:SetItem(index, 0)
+                end
+
+                if storage then
+                    for index, amount in pairs(warehouse.liquids) do
+                        storage:SetLiquid(index, amount)
+                    end
+                    if warehouse.weapons then
+                        for index, amount in pairs(warehouse.weapons) do
+                            storage:SetItem(index, amount)
+                        end
+                    end
+                    for index, amount in pairs(warehouse.aircraft) do
+                        storage:SetItem(index, amount)
+                    end
+                end
+            end
+
+        end
+
         function deust.persistence:log(message, tofile)
             _deustlog_info('[PERSISTENCE] ' .. message, tofile)
         end
     end
 
 
-    local filepath = 'deust.persistence.test.lua'
-    if lfs then 
-        local dir = lfs.writedir()..'Missions/Saves/'
-        lfs.mkdir(dir)
-        filepath = dir..filepath
-    end
 
-    DeustPersistence = deust.persistence:new(filepath, 10, 60)
-    DeustPersistence:init()
-
-    -- deust.persistence.enabled.saveTable(self.saveFile, 'zonePersistance', statedata)
+    -- DeustPersistence = deust.persistence:new(filepath, 10, 60)
+    -- DeustPersistence:init()
 
     _deustlog_info('[MODULE] Persistence loaded')
 end
