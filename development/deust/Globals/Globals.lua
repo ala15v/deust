@@ -78,3 +78,8 @@ deust.TotalWar.StrategicZones = {}
 deust.network = {}
 deust.network.udp = {}
 -- !SECTION
+
+deust.persistence = {}
+deust.persistence.enabled = false
+deust.persistence.saveFrequency = 60
+deust.persistence.updateFrequency = 10
