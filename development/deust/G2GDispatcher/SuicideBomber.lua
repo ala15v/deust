@@ -14,13 +14,15 @@ local SetBombsGroups = SET_GROUP:New():FilterPrefixes(deust.G2GDispatcher.Suicid
 
 SetBombsGroups:ForEachGroup(
     function( Group )
+        _deustlog_debug('SuicideBomberGroup: ' .. Group.GroupName, true)
         Group:OptionROTNoReaction()
         Group:OptionAlarmStateGreen()
     end
 )
 
 function SuciceBomberMissionRoute(bomber, target)
-    local route, reliable = bomber:TaskGroundOnRoad(target:GetCoordinate(), 20, 'On Road', true, nil, function(group, waypoint, totalwaypoints)
+    local route, reliable = bomber:TaskGroundOnRoad(target:GetCoordinate(), 20, 'Off Road', true, nil, function(group, waypoint, totalwaypoints)
+
         if waypoint == totalwaypoints then
             local coord = group:GetCoordinate()
             local unitFound, staticFound, scenaryFound, units, statics, scenaries = coord:ScanObjects(DetectionMeters, true, false, false)
@@ -41,6 +43,7 @@ function SuciceBomberMissionRoute(bomber, target)
                         ExplosionTNT = math.random(HighExplosionMin, HighExplosionMax)
                     end
                     group:GetCoordinate():Explosion(ExplosionTNT, ExplosionDelay)
+                    _deustlog_info('SuicideBomber Explosion launched from: ' .. group.GroupName .. ' target:' .. target.GroupName, true)
                 end
             end
         end
@@ -54,25 +57,25 @@ end
 function SucideBomberMission()
     SetBombsGroups:ForEachGroup(
         function( MooseGroup )
+            _deustlog_debug('SuicideBomberGroup Scanning: ' .. MooseGroup.GroupName, true)
             local AttackedCoalition = nil
             local ZoneName = MooseGroup.GroupName
-            local Zone1 = ZONE_RADIUS:New(ZoneName, MooseGroup:GetVec2(), SuicideBomberRadius, true)
-            -- Zone1:SmokeZone(SMOKECOLOR.Blue)
+            local Zone1 = ZONE_RADIUS:New(ZoneName, MooseGroup:GetVec2(), SuicideBomberRadius, false)
+            Zone1:DrawZone()
             Zone1:Scan({Object.Category.UNIT},{Unit.Category.GROUND_UNIT})
 
-            if MooseGroup:GetCoalition() == coalition.side.BLUE then
-                AttackedCoalition = 'red'
-            else
-                -- neutral coalition goes here too
-                AttackedCoalition = 'blue'
-            end
-
-            local GroupDetected = Zone1:GetScannedSetGroup():FilterCoalitions(AttackedCoalition):FilterOnce():GetFirst():GetUnit(1)
-            if GroupDetected then
-                if MooseGroup:GetCoordinate():Get2DDistance(GroupDetected:GetCoordinate()) <= SuicideBomberRadius then
-                    SuciceBomberMissionRoute(MooseGroup, GroupDetected)
+            Zone1:GetScannedSetGroup():FilterStop():FilterCoalitions("blue", true):FilterStart():ForEachGroupAnyInZone(Zone1, function(group)
+                if group:GetCoalition() ~=  MooseGroup:GetCoalition() then
+                    local targetUnit = group:GetUnit(1)
+                    _deustlog_debug('SuicideBomberGroup detection: ' .. group.GroupName .. ' by ' .. MooseGroup.GroupName, true)
+                    _deustlog_debug('SuicideBomberGroup distance to target: ' .. tostring(MooseGroup:GetCoordinate():Get2DDistance(targetUnit:GetCoordinate())), true)
+                    if MooseGroup:GetCoordinate():Get2DDistance(targetUnit:GetCoordinate()) <= SuicideBomberRadius then
+                        _deustlog_info('SuicideBomber Mission Launched from: ' .. MooseGroup.GroupName .. ' target:' .. group.GroupName, true)
+                        SuciceBomberMissionRoute(MooseGroup, targetUnit)
+                    end
                 end
-            end
+            end)
+
         end
     )
 end
