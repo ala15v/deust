@@ -70,4 +70,14 @@ deust.utils.dumpTable = function (t)
     end
 end
 
+deust.utils.IsValueInTable = function(table, value)
+    for _, v in ipairs(table) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
+
 _deustlog_info('[MODULE] Utils Serialize loaded')

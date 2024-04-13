@@ -33,6 +33,12 @@ deust.G2GDispatcher.AnticipationSeconds = 30
 deust.G2GDispatcher.InterceptSpeed = 20
 deust.G2GDispatcher.ThreatDistance = 100
 
+deust.G2GDetector = {}
+deust.G2GDetector.enabled = false
+deust.G2GDetector.validTypes = {'house2arm'}
+deust.G2GDetector.DetectionRefresh = 300
+deust.G2GDetector.Range = 5000
+
 deust.Autocargo = {}
 deust.Autocargo.CarrierPrefix = 'Autocargo'
 deust.AutocargoAndChaser = {}
