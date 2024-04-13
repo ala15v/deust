@@ -61,7 +61,6 @@ function SucideBomberMission()
             local AttackedCoalition = nil
             local ZoneName = MooseGroup.GroupName
             local Zone1 = ZONE_RADIUS:New(ZoneName, MooseGroup:GetVec2(), SuicideBomberRadius, false)
-            Zone1:DrawZone()
             Zone1:Scan({Object.Category.UNIT},{Unit.Category.GROUND_UNIT})
 
             Zone1:GetScannedSetGroup():FilterStop():FilterCoalitions("blue", true):FilterStart():ForEachGroupAnyInZone(Zone1, function(group)
