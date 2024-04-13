@@ -5,17 +5,18 @@ do
     _deustlog_info('[MODULE] G2GDetector loading')
 
 
+
     G2GDetectorsSetGroup = SET_GROUP:New():FilterCategories("ground"):FilterStart()
-
-    G2GDetectorsSetGroup:ForEachGroup(function(Group)
-        Group:OptionROTNoReaction()
-    end)
-
     function G2GDetectorScanner()
+        G2GDetectorsSetGroup = SET_GROUP:New():FilterCategories("ground"):FilterStart()
+
+        G2GDetectorsSetGroup:ForEachGroup(function(Group)
+            Group:OptionROTNoReaction()
+        end)
         G2GDetectorsSetGroup:ForEachGroup(
             function(DetectorGroup)
                 local firstUniteAlive = DetectorGroup:GetFirstUnitAlive()
-                if deust.utils.IsValueInTable(deust.G2GDetector.validTypes, firstUniteAlive:GetTypeName()) then
+                if firstUniteAlive and deust.utils.IsValueInTable(deust.G2GDetector.validTypes, firstUniteAlive:GetTypeName()) then
                     local ZoneName = DetectorGroup.GroupName
                     local Zone1 = ZONE_RADIUS:New(ZoneName, DetectorGroup:GetVec2(), deust.G2GDetector.Range)
                     local color
