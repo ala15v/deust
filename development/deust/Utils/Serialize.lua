@@ -79,5 +79,9 @@ deust.utils.IsValueInTable = function(table, value)
     return false
 end
 
+deust.utils.startsWith = function(input, pattern)
+    return string.sub(input, 1, string.len(pattern)) == pattern
+end
+
 
 _deustlog_info('[MODULE] Utils Serialize loaded')

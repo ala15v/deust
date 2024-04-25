@@ -13,7 +13,7 @@ RedDetection = DETECTION_AREAS:New( RedDetectionSetGroup, 5000 )
 -- RedDetection = DETECTION_TYPES:New( RedDetectionSetGroup, 30000 )
 
 RedDetection:SetRefreshTimeInterval(60)
-RedDetection:SetFriendliesRange(15000)
+RedDetection:SetFriendliesRange(15000) -- meters
 RedDetection:InitDetectVisual( true )
 RedDetection:InitDetectIRST( true )
 RedDetection:InitDetectRadar( true )

@@ -10,7 +10,12 @@ local LowExposionMax = 100
 local ExplosionDelay = 2
 local ScanTime = 60
 
+local viedRouteControl = {}
+
 local SetBombsGroups = SET_GROUP:New():FilterPrefixes(deust.G2GDispatcher.SuicideBombPrefix):FilterStart()
+local SetVIEDneutrals = SET_GROUP:New():FilterCoalitions("neutral"):FilterPrefixes('vied'):FilterActive():FilterStart()
+MESSAGE:New(string.format('Grupos neutrales detectados: %i', SetVIEDneutrals:Count()), 30):ToAll()
+local SetVIEDtargets = SET_UNIT:New():FilterCoalitions("blue"):FilterActive():FilterOnce()
 
 SetBombsGroups:ForEachGroup(
     function( Group )
@@ -79,6 +84,96 @@ function SucideBomberMission()
     )
 end
 
+-- Función para verificar la proximidad
+deust.G2GDispatcher.vied.checkProximity = function (chaser)
+    local chaser = chaser or false
+    SetVIEDneutrals:ForEachGroupAlive(
+      function(VIEDgroup)
+        if not VIEDgroup:IsActive() then return end
+        _deustlog_debug(string.format('Grupo VIED detectado: %s', VIEDgroup.GroupName), true)
+
+        local VIEDcoord = VIEDgroup:GetCoordinate()
+
+        SetVIEDtargets:ForEachUnit(
+          function(VIEDtarget)
+            if VIEDtarget:IsAlive() == false then return end
+
+            local VIEDtargetCoord = VIEDtarget:GetCoordinate()
+            local distance = VIEDcoord:Get2DDistance(VIEDtargetCoord)
+
+            if distance > deust.G2GDispatcher.vied.maxDistance then return end
+
+            -- TODO: memory leak if we don't remove the viedRouteControl
+            if chaser then
+                if viedRouteControl[VIEDgroup.GroupName] == nil or (timer.getTime() - viedRouteControl[VIEDgroup.GroupName]) > deust.G2GDispatcher.vied.calcRouteTime then
+                    viedRouteControl[VIEDgroup.GroupName] = timer.getTime()
+                    local route, reliable = VIEDgroup:TaskGroundOnRoad(VIEDtarget:GetCoordinate(), 60, 'Off Road', true, nil)
+                    local waypoint = VIEDtarget:GetCoordinate():WaypointGround()
+                    waypoint.task = route[#route].task
+                    route[#route+1]=waypoint
+                    VIEDgroup:Route(route, 2)
+                end
+            end
+
+            if distance < 15 then  -- distancia en metros
+                _deustlog_debug(string.format('Target VIED exploding: %s', VIEDtarget:GetName()), true)
+              local randomInterval
+  
+              VIEDcoord:Explosion(500)
+  
+              randomInterval = math.random(1,6)
+              VIEDcoord:Explosion(100, randomInterval)
+  
+              randomInterval = math.random(1, 6) + randomInterval
+              VIEDcoord:Explosion(100, randomInterval)
+  
+              randomInterval = math.random(1,6) + randomInterval
+              VIEDcoord:Explosion(100, randomInterval)
+  
+            end
+          end
+        )
+      end
+    )
+end
+
+deust.G2GDispatcher.vied.eventManager = {}
+function deust.G2GDispatcher.vied.eventManager:onEvent(event)
+    if event.id == world.event.S_EVENT_BDA then
+        -- TODO: solo detectar explosiones de ieds
+        if event.target then
+            local targetName = event.target:getName()
+            if not deust.utils.startsWith(targetName, 'vied') then return end
+
+            local vec3 = event.target:getPoint()
+            local initialCoord = COORDINATE:NewFromVec3(vec3)
+            local randomInterval
+            initialCoord:Explosion(600)
+
+            randomInterval = math.random(1,6)
+            initialCoord:Explosion(100, randomInterval)
+
+            randomInterval = math.random(1, 6) + randomInterval
+            initialCoord:Explosion(100, randomInterval)
+
+            randomInterval = math.random(1,6) + randomInterval
+            initialCoord:Explosion(100, randomInterval)
+
+            -- wait 30 segundos
+            local longOffset = 30
+            randomInterval = math.random(1,6) + randomInterval + longOffset
+            initialCoord:Explosion(100, randomInterval)
+
+            randomInterval = math.random(1, 6) + randomInterval
+            initialCoord:Explosion(100, randomInterval)
+
+            randomInterval = math.random(1,6) + randomInterval
+            initialCoord:Explosion(100, randomInterval)
+
+        end
+    end
+end
+
 -- Activar solo si hay grupos de suicidas
 if SetBombsGroups:Count() > 0 then
     Messager = SCHEDULER:New( nil,
@@ -86,4 +181,10 @@ if SetBombsGroups:Count() > 0 then
       SucideBomberMission()
     end, 
     {}, 0, ScanTime )
+end
+
+if deust.G2GDispatcher.vied.enable then
+    _deustlog_info('[VIED] Enabling event manager')
+    world.addEventHandler(deust.G2GDispatcher.vied.eventManager)
+    TIMER:New(deust.G2GDispatcher.vied.checkProximity, true):Start(0, deust.G2GDispatcher.vied.scan)
 end
