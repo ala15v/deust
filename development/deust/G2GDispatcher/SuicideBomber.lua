@@ -1,3 +1,7 @@
+-- TODO: respawn vied from zero creation in a zone.
+-- TODO: take target random unit and assign one vied to one target
+
+
 ---------------------------
 -- START G2G SuicideBomber --
 ---------------------------
@@ -13,8 +17,7 @@ local ScanTime = 60
 local viedRouteControl = {}
 
 local SetBombsGroups = SET_GROUP:New():FilterPrefixes(deust.G2GDispatcher.SuicideBombPrefix):FilterStart()
-local SetVIEDneutrals = SET_GROUP:New():FilterCoalitions("neutral"):FilterPrefixes('vied'):FilterActive():FilterStart()
-MESSAGE:New(string.format('Grupos neutrales detectados: %i', SetVIEDneutrals:Count()), 30):ToAll()
+local SetVIEDneutrals = SET_GROUP:New():FilterCoalitions("neutral"):FilterPrefixes(deust.G2GDispatcher.vied.prefix):FilterActive():FilterStart()
 local SetVIEDtargets = SET_UNIT:New():FilterCoalitions("blue"):FilterActive():FilterOnce()
 
 SetBombsGroups:ForEachGroup(
@@ -143,7 +146,7 @@ function deust.G2GDispatcher.vied.eventManager:onEvent(event)
         -- TODO: solo detectar explosiones de ieds
         if event.target then
             local targetName = event.target:getName()
-            if not deust.utils.startsWith(targetName, 'vied') then return end
+            if not deust.utils.startsWith(targetName, deust.G2GDispatcher.vied.prefix) then return end
 
             local vec3 = event.target:getPoint()
             local initialCoord = COORDINATE:NewFromVec3(vec3)

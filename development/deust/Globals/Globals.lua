@@ -34,6 +34,7 @@ deust.G2GDispatcher.InterceptSpeed = 20
 deust.G2GDispatcher.ThreatDistance = 100
 deust.G2GDispatcher.vied = {}
 deust.G2GDispatcher.vied.enable = true
+deust.G2GDispatcher.vied.prefix = 'vied'
 deust.G2GDispatcher.vied.scan = 5
 deust.G2GDispatcher.vied.maxDistance = 5000
 deust.G2GDispatcher.vied.calcRouteTime = 60
