@@ -19,6 +19,7 @@ deust.G2ADispatcher.ChasePursuitGroups = {}
 deust.G2ADispatcher.AutocargoChasePursuitGroups = {}
 deust.G2ADispatcher.ChasingGroups = {}
 deust.G2ADispatcher.ChasingGroupsPrefix = 'ChasePursuitGroup'
+deust.G2ADispatcher.ChasingGroupsReturnInitialPosition = true
 
 deust.G2GDispatcher = {}
 deust.G2GDispatcher.ChasingGroups = {}

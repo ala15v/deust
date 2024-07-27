@@ -68,7 +68,17 @@ function RedDetection:OnAfterDetectedItem(From, Event, To, DetectedItem)
                 local isChaseGroup = deust.G2ADispatcher.ChasePursuitGroups:FindGroup(groupName)
                 local isAutoCargoChaseGroup = deust.G2ADispatcher.AutocargoChasePursuitGroups:FindGroup(groupName)
                 if isChaseGroup then
-                    group:RouteToVec3(intercept:GetVec3(), 120 / 3.6)
+                    if deust.G2ADispatcher.ChasingGroupsReturnInitialPosition then
+                        -- create return to initial position when chasing is over
+                        local chaserRoute = {}
+                        local initialPosition = deust.G2ADispatcher.ChasingGroups[groupName].coord
+                        chaserRoute[#chaserRoute+1] = initialPosition:WaypointGround(120 / 3.6)
+                        chaserRoute[#chaserRoute+1] = intercept:WaypointGround(120 / 3.6)
+                        chaserRoute[#chaserRoute+1] = initialPosition:WaypointGround(120 / 3.6)
+                        group:Route(chaserRoute, 5)
+                    else
+                        group:RouteToVec3(intercept:GetVec3(), 120 / 3.6)
+                    end
                     group:OptionROEWeaponFree()
                     group:OptionAlarmStateRed()
                     counter_chasing = counter_chasing + 1
