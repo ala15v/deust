@@ -18,7 +18,7 @@ local viedRouteControl = {}
 
 local SetBombsGroups = SET_GROUP:New():FilterPrefixes(deust.G2GDispatcher.SuicideBombPrefix):FilterStart()
 local SetVIEDneutrals = SET_GROUP:New():FilterCoalitions("neutral"):FilterPrefixes(deust.G2GDispatcher.vied.prefix):FilterActive():FilterStart()
-local SetVIEDtargets = SET_UNIT:New():FilterCoalitions("blue"):FilterActive():FilterOnce()
+local SetVIEDtargets = SET_UNIT:New():FilterCoalitions("blue"):FilterActive():FilterStart()
 
 SetBombsGroups:ForEachGroup(
     function( Group )
