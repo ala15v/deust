@@ -48,8 +48,9 @@ function deust.utils.navPoints:parse_nav_point(point)
     for _, line in ipairs(lines) do
         local key_value = self:split(line, "=")
         local key = key_value[1]
-        local value = self:trim_quotes(key_value[2])
+        local value = key_value[2]
         nav_point[key] = value
+        self:log(key .. "=" .. value)
     end
     table.insert(self.mission_nav_points, nav_point)
 end
