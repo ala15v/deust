@@ -2,6 +2,14 @@ _deustlog_info('[MODULE] Utils Misc loading')
 
 deust.utils.navPoints = {}
 
+-- Define a DCS nav point with any callsign, coalition NEUTRAL and values some kind of:
+-- sample_var1=sample_val1
+-- sample_var2=sample_val2
+-- sample_var3=sample_val3
+
+-- key value pairs line by line
+
+
 function deust.utils.navPoints:new()
     local obj = {}
     obj.mission_nav_points = {}
